@@ -12,10 +12,7 @@
                           </div>
                       @endif
                         <h3 class="text-3xl text-bold">Cart List 
-                        <form action="{{ route('FillUpOrder') }}" method="POST"  style="float:right;width:20%;height:10%">
-                            @csrf
-                            <button class="px-1 py-1 text-red-800 bg-red-300">Checkout Cart</button>
-                          </form>
+                       
                         </h3>
                       <div class="flex-1">
                         <table class="w-full text-sm lg:text-base" cellspacing="0">
@@ -83,11 +80,64 @@
                          Total: ${{ Cart::getTotal() }}
                         </div>
                         <div class="row">
-                        <div class="col-xl-3">                        
+                        <div class="col-xl-3">    
+                        <br>
 
-                          <form action="{{ route('cart.clear') }}" method="POST">
+                       
+                        <!-- Fill Up Order Details -->
+                        <form method="POST" action="{{ route('ConfirmOrder') }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
+                        <!-- Reciever -->
+                        <div class="form-group row">
+                            <label for="reciever" class="col-md-4 col-form-label text-md-right">{{ __('Reciever :') }}</label>
+                            <div class="col-md-6">
+                                <input id="reciever" style="border-style:solid" type="text" class="form-control @error('reciever') is-invalid @enderror"
+                                    name="reciever"  required autocomplete="title" autofocus >
+                                @error('Reciever')
+                                <span class="alert alert-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div> <br>
+
+                        <!-- Address -->
+                        <div class="form-group row">
+                            <label for="address"
+                                class="col-md-4 col-form-label text-md-right">{{ __('Address :') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="address" type="text"
+                                    class="form-control @error('address') is-invalid @enderror" name="address"
+                                     required autocomplete="description" autofocus>
+                                @error('address')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div> <br>
+
+                        <!-- Phone -->
+                        <div class="form-group row">
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone :') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror"
+                                    name="phone" required autocomplete="phone" autofocus>
+                                @error('phone')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <br>
+
                             @csrf
-                            <button class="px-6 py-2 text-red-800 bg-red-300">Remove All Cart</button>
+                            <button class="px-6 py-2 text-red-800 bg-red-300">Confirm Order</button>
                           </form> <br>
                           
                         </div>

@@ -113,7 +113,7 @@
                         <a class="mt-3 hover:underline sm:mx-3 sm:mt-0" href="{{ route('home')}}">Home</a>
 
                         <div class="dropdown" >
-                                <button class="dropbtn" >User
+                                <button class="dropbtn" >{{ Auth::user()->name }}
                                     <i class="fa fa-caret-down"></i>
                                 </button>
                                 <div class="dropdown-content">

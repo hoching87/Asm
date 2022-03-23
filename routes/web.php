@@ -51,7 +51,7 @@ Route::resources([
 
 //Cart
 Route::get('/products', [BouquetController::class, 'productList'])->name('products.list');
-Route::post('order', [OrderController::class, 'FillUpOrder'])->name('order');
+Route::post('FillUpOrder', [OrderController::class, 'FillUpOrder'])->name('FillUpOrder');
 
 Route::get('cart', [CartController::class, 'cartList'])->name('cart.list');
 Route::post('cart', [CartController::class, 'addToCart'])->name('cart.store');
@@ -60,6 +60,8 @@ Route::post('remove', [CartController::class, 'removeCart'])->name('cart.remove'
 Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear');
 
 //order
-Route::get('/orders', [OrderController::class, 'orderList']);
+Route::get('/AdminViewOrderList', [OrderController::class, 'AdminViewOrderList'])->name('AdminViewOrders');
+Route::get('/userViewOrderList', [OrderController::class, 'userViewOrderList'])->name('UserViewOrders');
 Route::get('/orders/{id}', [OrderController::class, 'orderDetail'])->name('orders');
- testing
+Route::post('ConfirmOrder', [OrderController::class, 'ConfirmOrder'])->name('ConfirmOrder');
+Route::put('AcceptOrder/{order_id}', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
