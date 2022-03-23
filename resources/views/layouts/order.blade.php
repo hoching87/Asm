@@ -3,6 +3,7 @@
 @section('content')
 
 @foreach ($orderList as $list)
+
 <div>orderID : {{$list->order_id}}</div>
 <div>status : {{$list->status}}</div>
 <div>date_ordered : {{$list->date_ordered}}</div>
@@ -10,6 +11,7 @@
 <a class="dropdown-item" href="{{route('orders',['id'=>$list->order_id]) }}">
     Details
 </a>
+<div>==========</div>
 @endforeach
 
 @endsection
