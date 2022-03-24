@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Blog;
+use App\Models\Bouquet;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $products = Bouquet::inRandomOrder()->take(8)->get();
+        $blogs = Blog::inRandomOrder()->take(3)->get();
+
+        return view('home', ['products' =>$products, 'blogs' =>$blogs]);
     }
 }

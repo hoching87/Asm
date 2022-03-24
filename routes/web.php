@@ -7,7 +7,7 @@ use App\Http\Controllers\BouquetController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\BlogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,3 +65,6 @@ Route::get('/userViewOrderList', [OrderController::class, 'userViewOrderList'])-
 Route::get('/orders/{id}', [OrderController::class, 'orderDetail'])->name('orders');
 Route::post('ConfirmOrder', [OrderController::class, 'ConfirmOrder'])->name('ConfirmOrder');
 Route::put('AcceptOrder/{order_id}', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
+
+//Blog
+Route::get('/Blog', [BlogController::class,'index'])->name('blogs');
