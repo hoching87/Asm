@@ -117,7 +117,7 @@
                                     <i class="fa fa-caret-down"></i>
                                 </button>
                                 <div class="dropdown-content">
-                                    <a href="{{route('PersonalInfo',Auth::user()->id) }}">Personal Information</a>
+                                    <a href="{{route('user',Auth::user()->id) }}">Personal Information</a>
                                     <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                                    
                                     
