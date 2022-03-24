@@ -24,7 +24,9 @@
                     <a class="navbar-brand" href="{{ route('bouquets') }}">
                     View Bouquet
                     </a> <br>
-                    <a class="navbar-brand" href="{{ url('/Order') }}">
+
+                    <!--Admin View All Orders-->
+                    <a class="navbar-brand" href="{{ route('AdminViewOrders') }}">
                     View Order
                     </a> <br>
                    
@@ -37,7 +39,8 @@
                     <a class="navbar-brand" href="{{ url('/Bouquet') }}">
                     View Cart
                     </a> <br>
-                    <a class="navbar-brand" href="{{ url('/Bouquet') }}">
+                    <!--User View Own Orders-->
+                    <a class="navbar-brand" href="{{ route('UserViewOrders') }}">
                     View Order
                     </a> <br>
                     
