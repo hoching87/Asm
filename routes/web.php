@@ -35,8 +35,11 @@ Route::get('/Bouquet', [BouquetController::class, 'index'])->name('bouquets');
 Route::get('/AddBouquet', [BouquetController::class, 'addBouquet']);
 Route::get('bouquets-type/{type?}', [BouquetController::class, 'type'])->name('bouquets-type');
 Route::get('bouquets-price/{sort?}', [BouquetController::class, 'type'])->name('bouquets-price');
-Route::get('PersonalInfo/{id}', [UserController::class, 'personalInfo'])->name('PersonalInfo');
+
+Route::get('user/{id}', [UserController::class, 'displayInfo'])->name('user');
+Route::get('updateProfile/{id}', [UserController::class, 'getInfo'])->name('updateProfile');
 Route::put('/UserUpdate/{id}', [UserController::class, 'update']);
+
 
 
 Route::post('/createBouquet', [BouquetController::class, 'createBouquet']);
@@ -46,7 +49,6 @@ Route::delete('/Bouquet/{id}', [BouquetController::class, 'destroy']);
 
 Route::resources([
     'bouquets' => BouquetController::class,
-
 ]);
 
 //Cart
