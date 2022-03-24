@@ -64,4 +64,3 @@ Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear'
 //order
 Route::get('/orders', [OrderController::class, 'orderList']);
 Route::get('/orders/{id}', [OrderController::class, 'orderDetail'])->name('orders');
-asdasdas
