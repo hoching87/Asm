@@ -1,57 +1,7 @@
 @extends('layouts.frontend')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('FlowerShop') }}</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                   
-                    <br>
-                    @can('isAdmin')
-                    <a class="navbar-brand" href="{{ url('/AddBouquet') }}">
-                    Add Bouquet
-                    </a> <br>
-                    <a class="navbar-brand" href="{{ route('bouquets') }}">
-                    View Bouquet
-                    </a> <br>
-
-                    <!--Admin View All Orders-->
-                    <a class="navbar-brand" href="{{ route('AdminViewOrders') }}">
-                    View Order
-                    </a> <br>
-                   
-
-                    @else
-                    
-                    <a class="navbar-brand" href="{{route('bouquets') }}">
-                    View Bouquet
-                    </a> <br>
-                    <a class="navbar-brand" href="{{ url('/Bouquet') }}">
-                    View Cart
-                    </a> <br>
-                    <!--User View Own Orders-->
-                    <a class="navbar-brand" href="{{ route('UserViewOrders') }}">
-                    View Order
-                    </a> <br>
-                    
-                    
-                    @endcan
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="bg-image background-" style="background-image: url('https://cdn.pixabay.com/photo/2016/11/21/16/02/basket-1846135_960_720.jpg'); height: 600px;">
 </div>

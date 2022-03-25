@@ -1,8 +1,4 @@
-<?php 
 
-use App\Common;
-
-?>
 
 @extends('layouts.app')
 
@@ -15,21 +11,23 @@ use App\Common;
                 <br>
                 <h2 style="text-align: center"> Edit Bouquet Details</h2>
                 <br>
+                
                 <div class="card-body">
-                <form method="POST" action="/Bouquet/{{$bouquet['id']}}" enctype="multipart/form-data">
+                <form method="POST" action="UpdateBouquet" enctype="multipart/form-data">
+                    
                         @csrf
-                        @method('PUT')
+                        <input type='hidden' name='id' value="{{$bouquet->id}}">
+
                         <!-- Title -->
                         <div class="form-group row">
-                            <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
+                            <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Bouequet Name') }}</label>
                             <div class="col-md-6">
-                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
+                                <input id="title" type="text" class="form-control @error('bouequetName') is-invalid @enderror"
                                     name="bouequetName" value="{{$bouquet->bouequetName}}" required autocomplete="title" autofocus>
-                                @error('title')
-                                <span class="alert alert-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                                    @if ($errors->has('bouequetName'))
+                    <span class="text-danger">{{ $errors->first('bouequetName') }}</span>
+                @endif
+
                             </div>
                         </div>
 
@@ -40,13 +38,11 @@ use App\Common;
 
                             <div class="col-md-6">
                                 <input id="description" type="text"
-                                    class="form-control @error('description') is-invalid @enderror" name="bouequetDescription"
+                                    class="form-control @error('bouequetDescription') is-invalid @enderror" name="bouequetDescription"
                                     value="{{$bouquet->bouequetDescription}}" required autocomplete="description" autofocus>
-                                @error('description')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                                    @if ($errors->has('bouequetDescription'))
+                    <span class="text-danger">{{ $errors->first('bouequetDescription') }}</span>
+                @endif
                             </div>
                         </div>
 
@@ -55,32 +51,16 @@ use App\Common;
                             <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
 
                             <div class="col-md-6">
-                                <input id="price" type="text" class="form-control @error('price') is-invalid @enderror"
+                                <input id="price" type="text" class="form-control @error('bouequetPrice') is-invalid @enderror"
                                     name="bouequetPrice" value="{{$bouquet->bouequetPrice}}" required autocomplete="price" autofocus>
-                                @error('price')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                                 @if ($errors->has('bouequetPrice'))
+                    <span class="text-danger">{{ $errors->first('bouequetPrice') }}</span>
+                @endif
+                                
                             </div>
                         </div>
 
-                        <!-- Quantity -->
-                        <div class="form-group row">
-                            <label for="quantity"
-                                class="col-md-4 col-form-label text-md-right">{{ __('Quantity') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="quantity" type="text"
-                                    class="form-control @error('quantity') is-invalid @enderror" name="Quantity"
-                                    value="{{$bouquet->Quantity}}" required autocomplete="quantity" autofocus>
-                                @error('quantity')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
+                      
 
                         <!-- Type -->
                         <div class="form-group row">
@@ -96,11 +76,9 @@ use App\Common;
                             <option value="round">round</option>
                             <option value="crescent">crescent</option>
                         </select>                               
-                         @error('type')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                        
+                               
+                          
                             </div>
                         </div>
                         
@@ -110,16 +88,13 @@ use App\Common;
                             <div class="col-md-6">
                                 <input type="file" name="bouquetImage"
                                     class="form-control-file @error('image') is-invalid @enderror" id="bouquetImage" />
-                                @error('image')
-                                <div class="alert alert-danger">
-                                    {{ $message }}
-                                </div>
-                                @enderror
+                                
+                               
                             </div>
                         </div>
                         <div class="form-group row justify-content-center">
                             <div class="col-sm-4 text-center buttons">
-                                <input type="submit" class="spring-btn btn-lg btn-block" value="Edit" />
+                            <button type='submit'> Edit Bouquet </button>
                             </div>
                         </div>
                     </form>

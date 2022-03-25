@@ -92,9 +92,10 @@
                         <div class="form-group row">
                             <label for="reciever" class="col-md-4 col-form-label text-md-right">{{ __('Reciever :') }}</label>
                             <div class="col-md-6">
-                                <input id="reciever" style="border-style:solid" type="text" class="form-control @error('reciever') is-invalid @enderror"
-                                    name="reciever"  required autocomplete="title" autofocus >
-                                @error('Reciever')
+                                <!-- Added input field for reciever name -->
+                                <input id="reciever_name" style="border-style:solid" type="text" class="form-control @error('reciever') is-invalid @enderror"
+                                    name="reciever_name"  required autocomplete="title" autofocus >
+                                @error('reciever_name')
                                 <span class="alert alert-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -108,10 +109,11 @@
                                 class="col-md-4 col-form-label text-md-right">{{ __('Address :') }}</label>
 
                             <div class="col-md-6">
-                                <input id="address" type="text"
-                                    class="form-control @error('address') is-invalid @enderror" name="address"
+                                 <!-- Added input field for reciever address -->
+                                <input id="reciever_address" type="text"
+                                    class="form-control @error('address') is-invalid @enderror" name="reciever_address"
                                      required autocomplete="description" autofocus>
-                                @error('address')
+                                @error('reciever_address')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -124,9 +126,10 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone :') }}</label>
 
                             <div class="col-md-6">
+                                <!-- Added input field for reciever phone -->
                                 <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror"
-                                    name="phone" required autocomplete="phone" autofocus>
-                                @error('phone')
+                                    name="reciever_phone" required autocomplete="reciever_phone" autofocus>
+                                @error('reciever_phone')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

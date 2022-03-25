@@ -7,7 +7,7 @@ use App\Models\Bouquet;
 use Illuminate\Support\Facades\Gate; 
 use Illuminate\Support\Facades\Storage;
 use Auth;
-
+use Illuminate\Support\Facades\Validator;
 class BouquetController extends Controller
 {
     
@@ -30,25 +30,25 @@ class BouquetController extends Controller
     public function type($type=null, $sort=null)
     {
         $types = Bouquet::all();
-        $bouquet = Bouquet::all();
+        $products = Bouquet::all();
 
         if(Bouquet :: where ('type', $type)->exists())
         {
-            $bouquet = Bouquet :: where ('type', $type)->get();
-            return view('Bouquet', ['bouquet'=>$bouquet,'types' =>$types]);
+            $products = Bouquet :: where ('type', $type)->get();
+            return view('Bouquet', ['products'=>$products,'types' =>$types]);
         }
         
         if (request()->sort == 'low_high') {
-            $bouquet = $bouquet->sortBy('bouequetPrice');
-            return view('Bouquet', ['bouquet'=>$bouquet,'types' =>$types]);
+            $products = $products->sortBy('bouequetPrice');
+            return view('Bouquet', ['products'=>$products,'types' =>$types]);
 
         } else if (request()->sort == 'high_low') {
-            $bouquet = $bouquet->sortByDesc('bouequetPrice');
-            return view('Bouquet', ['bouquet'=>$bouquet,'types' =>$types]);
+            $products = $products->sortByDesc('bouequetPrice');
+            return view('Bouquet', ['products'=>$products,'types' =>$types]);
 
         } else if (request()->sort == 'Newest') {
-            $bouquet = $bouquet->sortByDesc('id');
-            return view('Bouquet', ['bouquet'=>$bouquet,'types' =>$types]);
+            $products = $products->sortByDesc('id');
+            return view('Bouquet', ['products'=>$products,'types' =>$types]);
 
         }
         else
@@ -86,7 +86,7 @@ class BouquetController extends Controller
     {   
         if (Gate::allows('isAdmin'))
          {
-            $bouquet = Bouquet::findOrFail($id);
+            $bouquet = Bouquet::find($id);
             return view('bouquets.edit', ['bouquet' => $bouquet]);
         } 
         else 
@@ -130,13 +130,16 @@ class BouquetController extends Controller
 
     public function update(Bouquet $bouquet, Request $request)
     {
-        $data = Bouquet::find ($request->id);
-        $data->bouequetName = $request->bouequetName;
-        $data->bouequetDescription = $request->bouequetDescription;
-        $data->bouequetPrice = $request->bouequetPrice;
-        
-
-        $data->Quantity = $request->Quantity;
+   
+            //Validation for data input
+             $validated_data = $request->validate([
+            'bouequetName' => 'required|max:20',
+            'bouequetDescription' => 'required|max:300',
+            'bouequetPrice' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            
+            ]);
+        //Find the Bouquet according to ID
+        $data = Bouquet::findOrFail ($request->id);
         if($request->hasfile('bouquetImage')) {
             $file = $request->file('bouquetImage');
             $extension = $file->getClientOriginalExtension(); //getting image extension
@@ -147,20 +150,30 @@ class BouquetController extends Controller
 
         if($request->has('type')) {
             $data->type = $request->type;
-
         }
-
-
+        //Fill Up if all data valid
+        $data->fill($validated_data);
         $data -> save();
-        return redirect('home'); 
+        return redirect('home');
+    
+       
     }
 
     public function createBouquet(Request $request) 
     { 
-        if (Gate::allows('isAdmin')) {
+            //Remove the if condition for Gate, since the middelware can help us to do the checking
+            //Added validation part for this as well
             $bouquet = new Bouquet();
 
-           
+            $validated_data = $request->validate([
+                'bouequetName' => 'required|max:20',
+                'bouequetDescription' => 'required|max:300',
+                'bouequetPrice' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+                'type' => 'required',
+                'bouquetImage' => 'required',
+                
+            ]);
+
             if($request->hasfile('bouquetImage')) {
                 $file = $request->file('bouquetImage');
                 $extension = $file->getClientOriginalExtension(); //getting image extension
@@ -170,18 +183,11 @@ class BouquetController extends Controller
             } else {
                 $bouquet->bouquetImage = '';
             }
-            
-            $bouquet->bouequetName = $request->bouequetName;
-            $bouquet->bouequetDescription = $request->bouequetDescription;
-            $bouquet->bouequetPrice = $request->bouequetPrice;
-            $bouquet->Quantity = $request->Quantity;
-            $bouquet->type = $request->type;
-
+            //Same logic
+            $bouquet->fill($validated_data);
             $bouquet->save();
 
             return redirect('home'); 
-        } else {
-            return view('unauthorized');
-        }              
+                    
     } 
 }

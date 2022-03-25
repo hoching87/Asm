@@ -19,11 +19,15 @@
                             <tr class="h-12 uppercase">
                                 <th class="hidden md:table-cell"></th>
                                 <th class="text-left">Order ID</th>
-
                                 <th class="text-left">Status</th>
                                 <th class="text-left">User ID</th>
                                 <th class="text-left">Date Ordered</th>
                                 <th class="text-left">Date Delivered</th>
+                                <!-- Added total price, reciever, address, and phone-->
+                                <th class="text-left">Total Price</th>
+                                <th class="text-left">Reciever</th>
+                                <th class="text-left"> Address</th>
+                                <th class="text-left"> Phone</th>
                                 <th class="text-left">Operation</th>
 
 
@@ -38,7 +42,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="#">
+                                    <a href="#" >
                                         <p class="mb-2 md:ml-4">{{ $list->order_id }}</p>
                                     </a>
                                 </td>
@@ -62,22 +66,73 @@
                                         <p class="mb-2 md:ml-4">{{ $list->date_delivered  }}</p>
                                     </a>
                                 </td>
-                                <td class="hidden text-right md:table-cell">
+                                <!-- Added total price, reciever, address, and phone-->
+                                <td>
+                                    <a href="#">
+                                        <p class="mb-2 md:ml-4">{{ $list->total_price  }}</p>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#">
+                                        <p class="mb-2 md:ml-4">{{ $list->reciever_name  }}</p>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#">
+                                        <p class="mb-2 md:ml-4">{{ $list->reciever_address  }}</p>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#">
+                                        <p class="mb-2 md:ml-4">{{ $list->reciever_phone  }}</p>
+                                    </a>
+                                </td>
+                                <td>
+                                    
                                     <span class="text-sm font-medium lg:text-base">
-                                        <a class="dropdown-item" href="{{route('orders',['id'=>$list->order_id]) }}">
-                                            View
-                                        </a>
-                                    </span>
-                                    @can('isAdmin')
-                                    <form method="POST" action="{{route('AcceptOrder',['order_id'=>$list->order_id]) }}" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
-                                    <span class="text-sm font-medium lg:text-base">
-                                    <input type="submit" class="spring-btn btn-lg btn-block" value="Accept" />
+                                  
+                                         <!-- Able to view the details of order-->
+                                        <form method="POST" action="{{route('orders',['id'=>$list->user_id]) }}">
+                                            @csrf
+                                            <input type="hidden" name='order_id' value="{{ $list->order_id  }}" />
 
+                                            <input type="submit" class="spring-btn btn-lg btn-block" value="View" />
+
+                                        </form>
+                                        <br>  <br>
+                                        @can('isAdmin')
+                                        <form method="POST" action="{{route('AcceptOrder',['order_id'=>$list->order_id]) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <!-- Only if status pending then accept button display-->
+                                            @if($list->status == 'pending')
+                                            <input type="submit" class="spring-btn btn-lg btn-block" value="Accept" />
+                                            @endif
+
+                                        </form>
+                                        @endcan
+                                        <!-- Only if status pending then edit, delete buttons display-->
+                                        @if($list->status == 'pending')
+                                        @can('isUser')
+                                        <form method="GET" action="{{route('ShowEditOrder',['order_id'=>$list->order_id]) }}">
+                                            @csrf
+                                           
+                                            <button class="px-6 py-2 text-black-800 bg-yellow-300">Edit</button>
+
+                                        </form>
+                                        <br>
+                                        <form method="POST" action="{{route('DeleteOrder',['order_id'=>$list->order_id]) }}">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button class="px-6 py-2 text-black-800 bg-red-300">Delete Order</button>
+
+                                        </form>
+                                        
+                                        @endcan
+                                        @endif
                                     </span>
-                                    </form>
-                                    @endcan
+                                
                                 </td>
 
                                 <td class="hidden text-right md:table-cell">

@@ -9,11 +9,11 @@ class Bouquet extends Model
 {
     use HasFactory;
 
+    //Quantity removed
     protected $fillable = [
         'bouequetName',
         'bouequetDescription',
         'bouequetPrice',
-        'Quantity',
         'bouquetimage',
         'type'
     ];
