@@ -65,7 +65,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 
-                                    <a class="dropdown-item" href="{{route('user',Auth::user()->id) }}">
+                                    <a class="dropdown-item" href="{{route('PersonalInfo',Auth::user()->id) }}">
                                                      
                                         {{ __('User Profile') }}
                                     </a>
