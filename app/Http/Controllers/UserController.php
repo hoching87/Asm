@@ -17,6 +17,12 @@ class UserController extends Controller
         return view('UserInfo',['data'=>$data]);
     }
 
+    public function getInfo($id)
+    {
+        $data = User::find($id);
+        return view('profile/UpdateProfile',['data'=>$data]);
+    }
+
     public function update(Request $request)
     {
         //Added validation 
@@ -28,8 +34,7 @@ class UserController extends Controller
         ]);
        $data->fill($validated_data);
 
-
         $data -> save();
-        return redirect('home'); 
+        return view('UserInfo',['data'=>$data]);
     }
 }

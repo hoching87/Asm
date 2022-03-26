@@ -42,7 +42,6 @@ Route::put('/UserUpdate/{id}', [UserController::class, 'update']);
 
 Route::resources([
     'bouquets' => BouquetController::class,
-
 ]);
 
 //Cart
