@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BouquetController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
@@ -55,8 +56,6 @@ Route::post('update-cart', [CartController::class, 'updateCart'])->name('cart.up
 Route::post('remove', [CartController::class, 'removeCart'])->name('cart.remove');
 Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear');
 
-
-
 //Blog
 Route::get('/Blog', [BlogController::class, 'index'])->name('blogs');
 
@@ -86,3 +85,8 @@ Route::group(['middleware' => ['protectedPage2']], function () {
     //Confirm edit by user
     Route::post('/EditOrder/{order_id}', [OrderController::class, 'EditOrder'])->name('EditOrder');
 });
+
+//order
+Route::get('/orders', [OrderController::class, 'orderList']);
+Route::get('/orders/{id}', [OrderController::class, 'orderDetail'])->name('orders');
+
