@@ -12,18 +12,7 @@
                           </div>
                       @endif
                         <h3 class="text-3xl text-bold">Cart List 
-                        <!-- Check the cart currently has item or not -->
-                          @if( Cart::getTotalQuantity()==0)
                        
-                          have no item
-                          
-                          
-                          @endif
-                          <a href="{{ route('products.list') }}" class="flex items-center">
-                            <svg class="w-5 h-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                                <path d="M13.388,9.624h-3.011v-3.01c0-0.208-0.168-0.377-0.376-0.377S9.624,6.405,9.624,6.613v3.01H6.613c-0.208,0-0.376,0.168-0.376,0.376s0.168,0.376,0.376,0.376h3.011v3.01c0,0.208,0.168,0.378,0.376,0.378s0.376-0.17,0.376-0.378v-3.01h3.011c0.207,0,0.377-0.168,0.377-0.376S13.595,9.624,13.388,9.624z M10,1.344c-4.781,0-8.656,3.875-8.656,8.656c0,4.781,3.875,8.656,8.656,8.656c4.781,0,8.656-3.875,8.656-8.656C18.656,5.219,14.781,1.344,10,1.344z M10,17.903c-4.365,0-7.904-3.538-7.904-7.903S5.635,2.096,10,2.096S17.903,5.635,17.903,10S14.365,17.903,10,17.903z"></path>
-                            </svg>
-                        </a>
                         </h3>
                       <div class="flex-1">
                         <table class="w-full text-sm lg:text-base" cellspacing="0">
@@ -91,18 +80,69 @@
                          Total: ${{ Cart::getTotal() }}
                         </div>
                         <div class="row">
-                        <div class="col-xl-3"> 
-                          <!-- If cart no item then these buttons not showing out-->                       
-                        @if( Cart::getTotalQuantity()>0)
-                        <form action="{{ route('FillUpOrder') }}" method="GET"  >
+                        <div class="col-xl-3">    
+                        <br>
+
+                       
+                        <!-- Fill Up Order Details -->
+                        <form method="POST" action="{{ route('ConfirmOrder') }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
+                        <!-- Reciever -->
+                        <div class="form-group row">
+                            <label for="reciever" class="col-md-4 col-form-label text-md-right">{{ __('Reciever :') }}</label>
+                            <div class="col-md-6">
+                                <!-- Added input field for reciever name -->
+                                <input id="reciever_name" style="border-style:solid" type="text" class="form-control @error('reciever') is-invalid @enderror"
+                                    name="reciever_name"  required autocomplete="title" autofocus >
+                                @error('reciever_name')
+                                <span class="alert alert-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div> <br>
+
+                        <!-- Address -->
+                        <div class="form-group row">
+                            <label for="address"
+                                class="col-md-4 col-form-label text-md-right">{{ __('Address :') }}</label>
+
+                            <div class="col-md-6">
+                                 <!-- Added input field for reciever address -->
+                                <input id="reciever_address" type="text"
+                                    class="form-control @error('address') is-invalid @enderror" name="reciever_address"
+                                     required autocomplete="description" autofocus>
+                                @error('reciever_address')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div> <br>
+
+                        <!-- Phone -->
+                        <div class="form-group row">
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone :') }}</label>
+
+                            <div class="col-md-6">
+                                <!-- Added input field for reciever phone -->
+                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror"
+                                    name="reciever_phone" required autocomplete="reciever_phone" autofocus>
+                                @error('reciever_phone')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <br>
+
                             @csrf
-                            <button class="px-6 py-2 text-black-800 bg-green-300">Checkout Cart</button>
-                          </form><br>
-                          <form action="{{ route('cart.clear') }}" method="POST">
-                            @csrf
-                            <button class="px-6 py-2 text-red-800 bg-red-300">Remove All </button>
+                            <button class="px-6 py-2 text-red-800 bg-red-300">Confirm Order</button>
                           </form> <br>
-                        @endif
+                          
                         </div>
                         </div>
 

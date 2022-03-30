@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use App\Common;
 
@@ -16,16 +16,16 @@ use App\Common;
                 <h2 style="text-align: center"> Add Bouquet</h2>
                 <br>
                 <div class="card-body">
-                <form method="POST" action="/createBouquet" enctype="multipart/form-data">
+                    <form method="POST" action="/createBouquet" enctype="multipart/form-data">
                         @csrf
                         @method('POST')
                         <!-- Title -->
                         <div class="form-group row">
                             <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Bouquet Name') }}</label>
                             <div class="col-md-6">
-                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                                    name="bouequetName"  required autocomplete="title" autofocus>
-                                @error('title')
+                                <!-- Added error handling -->
+                                <input id="title" type="text" class="form-control @error('bouequetName') is-invalid @enderror" name="bouequetName" required autocomplete="title" autofocus>
+                                @error('bouequetName')
                                 <span class="alert alert-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -35,14 +35,12 @@ use App\Common;
 
                         <!-- Description -->
                         <div class="form-group row">
-                            <label for="description"
-                                class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
+                            <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
 
                             <div class="col-md-6">
-                                <input id="description" type="text"
-                                    class="form-control @error('description') is-invalid @enderror" name="bouequetDescription"
-                                     required autocomplete="description" autofocus>
-                                @error('description')
+                                <input id="description" type="text" class="form-control @error('bouequetDescription') is-invalid @enderror" name="bouequetDescription" required autocomplete="description" autofocus>
+                               <!-- Added error handling -->
+                                @error('bouequetDescription')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -55,9 +53,9 @@ use App\Common;
                             <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
 
                             <div class="col-md-6">
-                                <input id="price" type="text" class="form-control @error('price') is-invalid @enderror"
-                                    name="bouequetPrice" required autocomplete="price" autofocus>
-                                @error('price')
+                                <input id="price" type="text" class="form-control @error('bouequetPrice') is-invalid @enderror" name="bouequetPrice" required autocomplete="price" autofocus>
+                               <!-- Added error handling -->
+                                @error('bouequetPrice')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -65,53 +63,39 @@ use App\Common;
                             </div>
                         </div>
 
-                        <!-- Quantity -->
-                        <div class="form-group row">
-                            <label for="quantity"
-                                class="col-md-4 col-form-label text-md-right">{{ __('Quantity') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="quantity" type="text"
-                                    class="form-control @error('quantity') is-invalid @enderror" name="Quantity"
-                                    required autocomplete="quantity" autofocus>
-                                @error('quantity')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
 
                         <!-- Type -->
                         <div class="form-group row">
-                            <label for="type"
-                                class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
+                            <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
 
                             <div class="col-md-6">
-                            <select name="type" id="pet-select">
-                            <option value="">--Please choose the type--</option>
-                            <option value="cascade">cascade</option>
-                            <option value="nosegay">nosegay</option>
-                            <option value="posy">posy</option>
-                            <option value="round">round</option>
-                            <option value="crescent">crescent</option>
-                        </select>                               
-                         @error('type')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                <select name="type" id="pet-select">
+                                    <option value="">--Please choose the type--</option>
+                                    <option value="cascade">cascade</option>
+                                    <option value="nosegay">nosegay</option>
+                                    <option value="posy">posy</option>
+                                    <option value="round">round</option>
+                                    <option value="crescent">crescent</option>
+                                </select>
+                                <!-- Added error handling -->
+                                @error('type')
+                                <div class="alert alert-danger">
+                                    {{ $message }}
+                                </div>
                                 @enderror
                             </div>
                         </div>
-                        
 
-                       
-                         <!-- Image -->
-                         <div class="form-group row">
+
+
+                        <!-- Image -->
+                        <div class="form-group row">
                             <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('bouquetImage') }}</label>
                             <div class="col-md-6">
                                 <input type="file" name="bouquetImage" class="form-control-file @error('image') is-invalid @enderror" id="bouquetImage" />
-                                @error('image')
+                                <!-- Added error handling -->
+                                @error('bouquetImage')
                                 <div class="alert alert-danger">
                                     {{ $message }}
                                 </div>

@@ -1,6 +1,7 @@
 @extends('layouts.frontend')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -50,8 +51,10 @@
     </div>
 </div>
 
+
 <div class="bg-image background-" style="background-image: url('https://cdn.pixabay.com/photo/2016/11/21/16/02/basket-1846135_960_720.jpg'); height: 600px;">
 </div>
+
 
 <p class="py-5 text-center">This example creates a full page background image. Try to resize the browser window to see how it always will cover the full screen (when scrolled to top), and that it scales nicely on all screen sizes.</p>
 <br>
@@ -110,6 +113,6 @@
 </div>
 
 <x-footer />
-@endsection
 
+@endsection
 

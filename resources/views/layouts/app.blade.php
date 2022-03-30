@@ -67,7 +67,7 @@
 
                                     <a class="dropdown-item" href="{{route('PersonalInfo',Auth::user()->id) }}">
                                                      
-                                        {{ __('Perosnal Information') }}
+                                        {{ __('User Profile') }}
                                     </a>
 
                                     <a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

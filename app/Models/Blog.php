@@ -16,4 +16,5 @@ class Blog extends Model
         'postedDate',
         'link',
     ];
+
 }

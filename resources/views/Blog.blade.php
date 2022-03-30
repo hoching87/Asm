@@ -6,7 +6,7 @@
         <div class="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
             @foreach ($blogs as $blog)
-            
+
             <div class="w-full max-w-sm mx-auto overflow-hidden rounded-md shadow-md">
                 <a href="{{ $blog->link}}"><div class="flex items-end justify-end w-full bg-cover">
                     <div class="px-5 py-3">

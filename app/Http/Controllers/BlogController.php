@@ -10,7 +10,7 @@ use Auth;
 
 class BlogController extends Controller
 {
-    
+   
     public function index()
     {
         $blogs = Blog::all();
@@ -19,3 +19,4 @@ class BlogController extends Controller
     }
 
 }
+

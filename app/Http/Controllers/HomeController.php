@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Bouquet;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use App\Models\Blog;
+use App\Models\Bouquet;
 
 class HomeController extends Controller
 {
