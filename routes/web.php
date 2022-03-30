@@ -8,7 +8,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\BlogController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -89,4 +89,3 @@ Route::group(['middleware' => ['protectedPage2']], function () {
 //order
 Route::get('/orders', [OrderController::class, 'orderList']);
 Route::get('/orders/{id}', [OrderController::class, 'orderDetail'])->name('orders');
-
