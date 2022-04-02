@@ -8,15 +8,15 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // /**
+    //  * Create a new controller instance.
+    //  *
+    //  * @return void
+    //  */
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api');
+    // }
 
     /**
      * Show the application dashboard.
@@ -28,6 +28,6 @@ class HomeController extends Controller
         $products = Bouquet::inRandomOrder()->take(8)->get();
         $blogs = Blog::inRandomOrder()->take(3)->get();
 
-        return view('home', ['products' => $products, 'blogs' => $blogs]);
+        return ['products' => $products, 'blogs' => $blogs];
     }
 }

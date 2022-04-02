@@ -9,14 +9,22 @@ class Order extends Model
 {
     use HasFactory;
 
-    //Added the relationship with OrderDetails and User model
-    public function getOrderDetails()
-    {
-        return $this-> hasMany('App\Models\OrderDetails');
-    }
+    protected $fillable = [
+        'users_id',
+        'items',
+        'phone',
+        'adress',
+        'status',
+        'date_ordered',
+        'date_delivered'
+    ];
+
+    protected $casts = [
+        'items' => 'array',
+    ];
 
     public function getUser()
     {
-        return $this-> hasOne('App\Models\User');
+        return $this->belongsTo('App\Models\User');
     }
 }

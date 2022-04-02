@@ -8,6 +8,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,40 +25,37 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::view('/HomePage', 'HomePage');
+// Auth::routes();
 
-Route::view('/HomePage', 'HomePage');
+Route::middleware(['jwtheader'])->group(function () {
+    // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm']);
+    Route::get('/register/user', [RegisterController::class, 'showRegisterForm']);
 
+    // Route::get('/Bouquet', [BouquetController::class, 'index'])->name('bouquets');
+    Route::get('bouquets-type/{type?}', [BouquetController::class, 'type'])->name('bouquets-type');
+    Route::get('bouquets-price/{sort?}', [BouquetController::class, 'type'])->name('bouquets-price');
+    Route::put('/UserUpdate/{id}', [UserController::class, 'update']);
 
-Auth::routes();
+    Route::resources([
+        'bouquets' => BouquetController::class,
+    ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm']);
-Route::get('/register/user', [RegisterController::class, 'showRegisterForm']);
+    //Cart
+    // Route::get('/products', [BouquetController::class, 'productList'])->name('products.list');
+    //Page for user to fill up order
+    Route::get('FillUpOrder', [OrderController::class, 'FillUpOrder'])->name('FillUpOrder');
 
-Route::get('/Bouquet', [BouquetController::class, 'index'])->name('bouquets');
-Route::get('bouquets-type/{type?}', [BouquetController::class, 'type'])->name('bouquets-type');
-Route::get('bouquets-price/{sort?}', [BouquetController::class, 'type'])->name('bouquets-price');
-Route::put('/UserUpdate/{id}', [UserController::class, 'update']);
+    Route::get('getcart', [CartController::class, 'cartList'])->name('cart.list');
+    Route::post('addToCart', [CartController::class, 'addToCart'])->name('cart.store');
+    Route::post('updateCart', [CartController::class, 'updateCart'])->name('cart.update');
+    Route::post('removeCart', [CartController::class, 'removeCart'])->name('cart.remove');
+    Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear');
 
-
-
-Route::resources([
-    'bouquets' => BouquetController::class,
-]);
-
-//Cart
-Route::get('/products', [BouquetController::class, 'productList'])->name('products.list');
-//Page for user to fill up order
-Route::get('FillUpOrder', [OrderController::class, 'FillUpOrder'])->name('FillUpOrder');
-
-Route::get('cart', [CartController::class, 'cartList'])->name('cart.list');
-Route::post('cart', [CartController::class, 'addToCart'])->name('cart.store');
-Route::post('update-cart', [CartController::class, 'updateCart'])->name('cart.update');
-Route::post('remove', [CartController::class, 'removeCart'])->name('cart.remove');
-Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear');
-
-//Blog
-Route::get('/Blog', [BlogController::class, 'index'])->name('blogs');
+    //Blog
+    Route::get('/Blog', [BlogController::class, 'index'])->name('blogs');
+});
 
 //Middleware to check the account got the right to access to some pages or not
 Route::group(['middleware' => ['protectedPage']], function () {
@@ -87,5 +85,30 @@ Route::group(['middleware' => ['protectedPage2']], function () {
 });
 
 //order
-Route::get('/orders', [OrderController::class, 'orderList']);
-Route::get('/orders/{id}', [OrderController::class, 'orderDetail'])->name('orders');
+// Route::get('/orders', [OrderController::class, 'userViewOrderList'])->middleware('jwtheader');
+Route::get('/session', function () {
+    // return session()->get('jwt');
+    return session()->all();
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);
+});
+
+
+Route::middleware('jwt')->group(function () {
+    Route::view('/login', 'profile.login')->name('login');
+    Route::view('/home', 'home')->name('home');
+    Route::view('/register', 'profile.register');
+    Route::view('/cart', 'cart');
+    Route::view('/orders', 'orders');
+    Route::view('/products', 'products');
+    Route::get('/Bouquet', [BouquetController::class, 'index']);
+});

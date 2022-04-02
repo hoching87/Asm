@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate; 
+use Illuminate\Support\Facades\Gate;
 
 //New added route checking method to check for some pages see whether the account have the privellegd to access or not
 
@@ -21,15 +21,12 @@ class RouteChecking
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Gate::allows('isAdmin')){
-            if($request->id != Auth::user()->id)
-                {
-                        return redirect('noaccess');
-                }
+        if (!Gate::allows('isAdmin')) {
+            if ($request->id != Auth::user()->id) {
+                return redirect('noaccess');
+            }
         }
-      
-       return $next ($request);
-    }
 
-  
+        return $next($request);
+    }
 }

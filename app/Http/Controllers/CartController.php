@@ -10,24 +10,22 @@ class CartController extends Controller
     {
         $cartItems = \Cart::getContent();
         // dd($cartItems);
-        return view('layouts.cart', compact('cartItems'));
+        return $cartItems;
     }
 
 
     public function addToCart(Request $request)
     {
-        \Cart::add([
+        \Cart::add(array(
             'id' => $request->id,
             'price' => $request->price,
             'quantity' => $request->quantity,
             'name' => $request->name,
             'attributes' =>  $request->image,
-            
-
-        ]);
+        ));
         session()->flash('success', 'Product is Added to Cart Successfully !');
 
-        return redirect()->route('cart.list');
+        return 'ok';
     }
 
     public function updateCart(Request $request)
@@ -44,7 +42,7 @@ class CartController extends Controller
 
         session()->flash('success', 'Item Cart is Updated Successfully !');
 
-        return redirect()->route('cart.list');
+        return 'ok';
     }
 
     public function removeCart(Request $request)
@@ -52,7 +50,7 @@ class CartController extends Controller
         \Cart::remove($request->id);
         session()->flash('success', 'Item Cart Remove Successfully !');
 
-        return redirect()->route('cart.list');
+        return 'ok';
     }
 
     public function clearAllCart()
@@ -61,6 +59,6 @@ class CartController extends Controller
 
         session()->flash('success', 'All Item Cart Clear Successfully !');
 
-        return redirect()->route('cart.list');
+        return 'ok';
     }
 }
