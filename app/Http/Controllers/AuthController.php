@@ -38,7 +38,7 @@ class AuthController extends Controller
         $jwt = $this->createNewToken($token);
 
         //user jwt to session
-        // $request->session()->put('jwt', $token);
+        $request->session()->put('jwt', $token);
 
         return $jwt;
     }
