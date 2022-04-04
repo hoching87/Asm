@@ -9,13 +9,12 @@ const { Meta } = Card;
 
 function Home(props) {
     const [contents, setContents] = useState();
-
     useEffect(() => {
         getProducts()
     }, [])
 
     const getProducts = async () => {
-        const res = await axios.get('http://127.0.0.1:8000/api/home');
+        const res = await axios.get(window.location.origin + '/api/home');
         console.log('getProducts', res.data)
         setContents(res.data)
     }
@@ -32,8 +31,8 @@ function Home(props) {
                             <Card key={product.id}
                                 hoverable
                                 style={{ width: 200 }}
-                                cover={<img alt="example" src={`http://localhost:8000/uploads/images/${product.bouquetImage}`} />}
-                                onClick={() => window.location.href = 'http://localhost:8000/products'}
+                                cover={<img alt="example" src={window.location.origin + `/uploads/images/${product.bouquetImage}`} />}
+                                onClick={() => window.location.href = window.location.origin + '/products'}
                             >
                                 <Meta title={product.bouequetName} description={`RM${product.bouequetPrice}`} />
                             </Card>
@@ -54,7 +53,7 @@ function Home(props) {
                                 onClick={() => window.location.href = blog.link}
                                 key={blog.id}
                             >
-                                <img alt="example" src={`http://localhost:8000/uploads/images/${blog.pictures}`} style={{ width: 200 }} />
+                                <img alt="example" src={window.location.origin + `/uploads/images/${blog.pictures}`} style={{ width: 200 }} />
                                 {blog.blogTitle}
                             </Card>
                         )

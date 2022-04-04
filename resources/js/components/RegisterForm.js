@@ -9,11 +9,11 @@ function RegisterForm(props) {
     const onFinish = async (values) => {
         values['role'] = 'user'
         try {
-            const res = await axios.post('http://127.0.0.1:8000/auth/register', values)
+            const res = await axios.post(window.location.origin + '/auth/register', values)
             console.log('res', res)
             if (res.statusText == 'Created') {
                 message.success('Register Success!');
-                window.location.replace("http://127.0.0.1:8000/home");
+                window.location.replace(window.location.origin + "/home");
             }
         } catch (error) {
             if (error.response) {
@@ -101,11 +101,11 @@ function RegisterForm(props) {
                 </Form>
                 <Divider></Divider>
                 <Text>Have a existing account? </Text>
-                <Link href="http://127.0.0.1:8000/login">
+                <Link href={window.location.origin + '/login'}>
                     Login
                 </Link>
             </Card>
-        </Space>
+        </Space >
     );
 }
 

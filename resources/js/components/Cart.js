@@ -15,7 +15,7 @@ function Cart(props) {
     }, [])
 
     const getCart = async () => {
-        let res = await axios.get('http://127.0.0.1:8000/getcart')
+        let res = await axios.get(window.location.origin + '/getcart')
         // console.log('getCart', res.data)
         if (res.data) {
             const toArray = Object.entries(res.data).map(([key, value]) => value)
@@ -28,7 +28,7 @@ function Cart(props) {
     }
 
     const clearCart = async () => {
-        let res = await axios.post('http://127.0.0.1:8000/clear')
+        let res = await axios.post(window.location.origin + '/clear')
         console.log('clearCart', res)
         if (res.status == 200) {
             location.reload();
@@ -36,19 +36,19 @@ function Cart(props) {
     }
 
     const addToCart = async (req) => {
-        let res = await axios.post('http://127.0.0.1:8000/addToCart', req)
+        let res = await axios.post(window.location.origin + '/addToCart', req)
         console.log('addToCart', res)
         getCart()
     }
 
     const updateCart = async (req) => {
-        let res = await axios.post('http://127.0.0.1:8000/updateCart', req)
+        let res = await axios.post(window.location.origin + '/updateCart', req)
         console.log('updateCart', res.data)
         getCart()
     }
 
     const removeCart = async (req) => {
-        let res = await axios.post('http://127.0.0.1:8000/removeCart', req)
+        let res = await axios.post(window.location.origin + '/removeCart', req)
         console.log('removeCart', res.data)
         getCart()
     }
@@ -57,7 +57,7 @@ function Cart(props) {
         try {
             if (!cart.length)
                 throw ('Empty Cart')
-            const res = await axios.post('http://127.0.0.1:8000/api/comfirmorder', {
+            const res = await axios.post(window.location.origin + '/api/comfirmorder', {
                 ...values, cart
             }, {
                 headers: {
@@ -69,7 +69,7 @@ function Cart(props) {
             if (res.status == 200) {
                 message.success('Order Success!');
                 await clearCart()
-                // window.location.replace("http://127.0.0.1:8000/home");
+                // window.location.replace(window.location.origin + "/home");
             }
         } catch (error) {
             if (error.response) {

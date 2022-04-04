@@ -18,13 +18,13 @@ function Products(props) {
     }, [])
 
     const getProducts = async () => {
-        let res = await axios.get('http://127.0.0.1:8000/api/products');
+        let res = await axios.get(window.location.origin + '/api/products');
         console.log('getProducts', res.data)
         setProducts(res.data)
     }
 
     const getCart = async () => {
-        let res = await axios.get('http://127.0.0.1:8000/getcart')
+        let res = await axios.get(window.location.origin + '/getcart')
         if (res.data) {
             const toArray = Object.entries(res.data).map(([key, value]) => value)
             console.log('getCart', toArray)
@@ -34,19 +34,19 @@ function Products(props) {
     }
 
     const updateCart = async (req) => {
-        let res = await axios.post('http://127.0.0.1:8000/updateCart', req)
+        let res = await axios.post(window.location.origin + '/updateCart', req)
         console.log('updateCart', res.data)
         getCart()
     }
 
     const removeCart = async (req) => {
-        let res = await axios.post('http://127.0.0.1:8000/removeCart', req)
+        let res = await axios.post(window.location.origin + '/removeCart', req)
         console.log('removeCart', res.data)
         getCart()
     }
 
     const addToCart = async (req) => {
-        let res = await axios.post('http://127.0.0.1:8000/addToCart', req)
+        let res = await axios.post(window.location.origin + '/addToCart', req)
         console.log('addToCart', res)
         getCart()
     }
@@ -61,7 +61,7 @@ function Products(props) {
                         return (
                             <Card key={product.id}
                                 style={{ width: 250 }}
-                                cover={<img alt="img" src={`http://localhost:8000/uploads/images/${product.bouquetImage}`} />}
+                                cover={<img alt="img" src={`${window.location.origin}/uploads/images/${product.bouquetImage}`} />}
                             >
                                 <Space direction="vertical" size='small'>
                                     <Meta title={product.bouequetName} description={`RM${product.bouequetPrice}`} />
