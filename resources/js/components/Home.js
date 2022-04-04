@@ -33,7 +33,7 @@ function Home(props) {
                                 hoverable
                                 style={{ width: 200 }}
                                 cover={<img alt="example" src={`http://localhost:8000/uploads/images/${product.bouquetImage}`} />}
-                                onClick={() => window.location.href = 'http://localhost:8000/products'}
+                                onClick={() => window.location.href = 'http://127.0.0.1:8000/products'}
                             >
                                 <Meta title={product.bouequetName} description={`RM${product.bouequetPrice}`} />
                             </Card>

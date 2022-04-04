@@ -45,14 +45,14 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
         //Added this route checking for admin site
-        'protectedPage' => [
+        'AdminPage' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \App\Http\Middleware\RouteChecking::class,
 
         ],
         //Added this route checking for user site
-        'protectedPage2' => [
+        'UserPage' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \App\Http\Middleware\UserRouteChecking::class,

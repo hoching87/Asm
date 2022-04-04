@@ -59,7 +59,7 @@ Route::middleware(['jwtheader'])->group(function () {
 
 //Middleware to check the account got the right to access to some pages or not
 Route::group(['middleware' => ['protectedPage']], function () {
-    Route::get('PersonalInfo/{id}', [UserController::class, 'personalInfo'])->name('PersonalInfo');
+    /*Route::get('PersonalInfo/{id}', [UserController::class, 'personalInfo'])->name('PersonalInfo');*/
     Route::post('/orders/{id}', [OrderController::class, 'orderDetail'])->name('orders');
     Route::get('/AddBouquet', [BouquetController::class, 'addBouquet'])->name('AddBouquet');
     Route::get('/AdminViewOrderList', [OrderController::class, 'AdminViewOrderList'])->name('AdminViewOrders');
@@ -102,13 +102,24 @@ Route::group([
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });
 
-
+//To know whether got login or not
 Route::middleware('jwt')->group(function () {
     Route::view('/login', 'profile.login')->name('login');
-    Route::view('/home', 'home')->name('home');
+   
     Route::view('/register', 'profile.register');
     Route::view('/cart', 'cart');
     Route::view('/orders', 'orders');
+
+    Route::group(['middleware' => ['UserPage']], function () {
+    Route::view('/home', 'home')->name('home');
+    });
+
+    Route::group(['middleware' => ['AdminPage']], function () {
+    Route::view('/AdminOrder', 'Admin/AdminOrder')->name('AdminOrder');
+    });
+    
     Route::view('/products', 'products');
     Route::get('/Bouquet', [BouquetController::class, 'index']);
+    Route::view('/userinfo', 'userinfo');
+
 });

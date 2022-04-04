@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BouquetController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,5 +36,13 @@ Route::group([
 
 Route::get('/home', [HomeController::class, 'index']);
 Route::get('/orders', [OrderController::class, 'userViewOrderList']);
+Route::get('/adminViewOrders', [OrderController::class, 'AdminViewOrderList']);
+
 Route::get('/products', [BouquetController::class, 'index']);
 Route::post('/comfirmorder', [OrderController::class, 'ConfirmOrder']);
+Route::get('PersonalInfo', [UserController::class, 'personalInfo'])->name('PersonalInfo');
+Route::post('/update', [UserController::class, 'update']);
+Route::post('/DeleteOrder', [OrderController::class, 'DeleteOrder'])->name('DeleteOrder');
+Route::post('/AcceptOrder', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
+
+

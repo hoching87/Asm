@@ -19,6 +19,7 @@ class authjwt
         if (!auth()->user()) {
             return redirect('home');
         }
+        
 
         return $next($request);
     }

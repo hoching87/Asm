@@ -22,11 +22,9 @@ class RouteChecking
     public function handle(Request $request, Closure $next)
     {
         if (!Gate::allows('isAdmin')) {
-            if ($request->id != Auth::user()->id) {
-                return redirect('noaccess');
-            }
-        }
 
+            return redirect('noaccess');
+        }
         return $next($request);
     }
 }

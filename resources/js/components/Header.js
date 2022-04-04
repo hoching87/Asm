@@ -8,7 +8,7 @@ import {
     HomeOutlined, SettingOutlined, UserOutlined, TagsOutlined, ShoppingCartOutlined,
     PayCircleOutlined, LogoutOutlined, LoginOutlined
 } from '@ant-design/icons';
-const { SubMenu } = Menu;
+const { SubMenu, Item } = Menu;
 
 function Header(props) {
     useEffect(() => {
@@ -47,18 +47,25 @@ function Header(props) {
                         <Menu.Item key="Home" icon={<HomeOutlined />} onClick={() => window.location.href = 'http://127.0.0.1:8000/home'}>
                             Home
                         </Menu.Item>
+
                         <Menu.Item key="Shop" icon={<TagsOutlined />} onClick={() => window.location.href = 'http://127.0.0.1:8000/products'}>
                             Shop
                         </Menu.Item>
-                        <Menu.Item key="Cart" icon={<ShoppingCartOutlined />} onClick={() => window.location.href = 'http://127.0.0.1:8000/cart'}>
+                        
+                        
+                            <Menu.Item key="Cart" icon={<ShoppingCartOutlined />} onClick={() => window.location.href = 'http://127.0.0.1:8000/cart'}>
                             Cart
                         </Menu.Item>
+                      
+
                         {
                             props.user ?
                                 <SubMenu key="SubMenu" title={props.user} icon={<UserOutlined />}>
                                     <Menu.Item key="Order" icon={<PayCircleOutlined />}
                                         onClick={() => window.location.href = 'http://127.0.0.1:8000/orders'}>Order</Menu.Item>
-                                    <Menu.Item key="personalinfo" icon={<SettingOutlined />}>personal info</Menu.Item>
+
+                                    <Menu.Item key="personalinfo" icon={<SettingOutlined />}
+                                        onClick={() => window.location.href = 'http://127.0.0.1:8000/userinfo'}>Personal Info</Menu.Item>
                                     <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logout}>logout</Menu.Item>
                                 </SubMenu>
                                 :

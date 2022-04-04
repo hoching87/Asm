@@ -2,30 +2,11 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import { Divider, Table, Descriptions, Image } from 'antd';
+import { Divider, Table, Descriptions, Image, Button, message } from 'antd';
 
-const columns = [
-    { title: 'id', dataIndex: 'id', key: 'id' },
-    { title: 'reciever_name', dataIndex: 'reciever_name', key: 'reciever_name' },
-    { title: 'reciever_phone', dataIndex: 'reciever_phone', key: 'reciever_phone' },
-    { title: 'date_ordered', dataIndex: 'date_ordered', key: 'date_ordered' },
-    { title: 'date_delivered', dataIndex: 'date_delivered', key: 'date_delivered' },
-    { title: 'status', dataIndex: 'status', key: 'status' },
-    {
-        title: 'Total',
-        dataIndex: 'id',
-        key: 'x',
-        render: (text, record, index) => {
-            let total = 0;
-            record.items.forEach((item) => {
-                total += item.price * item.quantity
-            })
-            return (
-                'RM' + total
-            )
-        },
-    },
-];
+
+
+
 
 function Orders(props) {
     const [orderData, setOrderData] = useState()
@@ -33,7 +14,46 @@ function Orders(props) {
     useEffect(() => {
         getData()
     }, [])
-
+    const columns = [
+        { title: 'id', dataIndex: 'id', key: 'id' },
+        { title: 'reciever_name', dataIndex: 'reciever_name', key: 'reciever_name' },
+        { title: 'reciever_phone', dataIndex: 'reciever_phone', key: 'reciever_phone' },
+        { title: 'date_ordered', dataIndex: 'date_ordered', key: 'date_ordered' },
+        { title: 'date_delivered', dataIndex: 'date_delivered', key: 'date_delivered' },
+        { title: 'Status', dataIndex: 'status', key: 'status' },
+        {
+            title: 'Total',
+            dataIndex: 'id',
+            key: 'x',
+            render: (text, record, index) => {
+                let total = 0;
+                record.items.forEach((item) => {
+                    total += item.price * item.quantity
+                })
+                return (
+                    'RM' + total
+                    
+                )
+            },
+        }
+        ,
+        {
+            title: 'Operation',
+            
+            render: (row) => {
+                if(row['status']=='pending')
+                {
+                    return(
+                    <Button type="primary" htmlType="submit" onClick={()=>deleteOrder(row['id'])}>
+                    Cancel Order
+                    </Button>
+                )
+                }
+    
+    
+            }
+        }
+    ];
     const getData = async () => {
         const res = await axios.get('http://127.0.0.1:8000/api/orders', {
             headers: {
@@ -49,10 +69,23 @@ function Orders(props) {
         setOrderData(res.data)
     }
 
+    const deleteOrder = async(id) => {
+        console.log(id)
+        const res = await axios.post('http://127.0.0.1:8000/api/DeleteOrder',{'id':id}, {
+            headers: {
+                'Authorization': `Bearer ${props.jwt}`
+            }
+        })
+        message.success('Order cancelled')
+        console.log(res)
+        getData()
+    }
+
     return (
         <>
             <Table
                 columns={columns}
+                
                 expandable={{
                     expandedRowRender: record => {
                         let total_price = 0;
@@ -63,19 +96,24 @@ function Orders(props) {
                                     return (
 
                                         <div key={item.id}>
-                                            <Descriptions bordered>
+                                            <Descriptions bordered layout="vertical">
+
                                                 <Descriptions.Item>
                                                     <Image src={`http://localhost:8000/uploads/images/${item.details.bouquetImage}`} width='150'></Image>
                                                 </Descriptions.Item>
-                                                <Descriptions.Item label="Name">{item.details.bouequetName}</Descriptions.Item>
-                                                <Descriptions.Item label="Description">{item.details.bouequetDescription}</Descriptions.Item>
-                                                <Descriptions.Item label="Type">{item.details.type}</Descriptions.Item>
-                                                <Descriptions.Item label="Quantity">{item.quantity}</Descriptions.Item>
-                                                <Descriptions.Item label="Unit Price">RM{item.price}</Descriptions.Item>
-                                                <Descriptions.Item label="Total Price">RM{item.price * item.quantity}</Descriptions.Item>
+                                                <Descriptions.Item label="Name :">{item.details.bouequetName}</Descriptions.Item>
+                                                <Descriptions.Item label="Description :">{item.details.bouequetDescription}</Descriptions.Item>
+                                                <Descriptions.Item label="Type :">{item.details.type}</Descriptions.Item>
+                                                <Descriptions.Item label="Quantity :">{item.quantity}</Descriptions.Item>
+                                                <Descriptions.Item label="Unit Price :">RM{item.price}</Descriptions.Item>
+                                                <Descriptions.Item label="Total Price :">RM{item.price * item.quantity}</Descriptions.Item>
+
                                             </Descriptions>
+                                           
                                             <Divider></Divider>
+                                            
                                         </div>
+                                        
                                     )
                                 })}
                             </>
@@ -84,7 +122,9 @@ function Orders(props) {
                     rowExpandable: record => record.name !== 'Not Expandable',
                 }}
                 dataSource={orderData}
+
             />
+
         </>
     );
 }

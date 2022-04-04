@@ -18,9 +18,16 @@ class OrderController extends Controller
     //For Admin to view All Orders
     public function AdminViewOrderList()
     {
-        $orderList = DB::select("select * from orders");
-
-        return view('layouts.order', ['orderList' => $orderList]);
+        $orders = Order::all()->toJson();
+        $orders = json_decode($orders);
+        $orders = array_map(function ($order) {
+            $order->items = array_map(function ($item) {
+                $item->details = Bouquet::find($item->id);
+                return $item;
+            }, $order->items);
+            return $order;
+        }, $orders);
+        return $orders;
     }
 
     //For user view their own order
@@ -64,25 +71,31 @@ class OrderController extends Controller
     }
 
     //Admin accept orders placed by users
-    public function AcceptOrder($order_id)
+    public function AcceptOrder(Request $req)
     {
         $date = Carbon::now()->format('Y-m-d');
-        $user_id = Auth::id();
-        $order = DB::update("Update orders SET status='delivered', date_delivered ='$date' where order_id =$order_id ");
+        $order = Order::find($req -> id);
+        $order -> status = 'delivered';
+        $order -> date_delivered = $date;
+        $order->save();
 
-        $orderList = Order::all();
-        return view('layouts.order', ['orderList' => $orderList]);
+        return $order;
     }
 
     //User delete orders 
-    public function DeleteOrder($order_id)
+    public function DeleteOrder(Request $req)
     {
-        $user_id = Auth::id();
-        $DeleteOrder = DB::delete("Delete FROM orders where order_id = $order_id");
-        $DeleteOrderDetails = DB::delete("Delete FROM order_details where order_id = $order_id");
+        // $user_id = Auth::id();
+        // $DeleteOrder = DB::delete("Delete FROM orders where order_id = $order_id");
+        // $DeleteOrderDetails = DB::delete("Delete FROM order_details where order_id = $order_id");
 
-        $orderList = Order::all();
-        return view('layouts.order', ['orderList' => $orderList]);
+        // $orderList = Order::all();
+        // return view('layouts.order', ['orderList' => $orderList]);
+
+        $order = Order::find($req -> id);
+        $order -> status = 'cancel';
+        $order->save();
+        return $order;
     }
 
     //show edit orders page to users
