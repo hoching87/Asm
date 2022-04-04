@@ -12,11 +12,11 @@ const { SubMenu, Item } = Menu;
 
 function Header(props) {
     console.log('props', props)
-    useEffect(() => {
-        if (!(props.url == window.location.origin + '/login' || props.url == window.location.origin + '/register') && !props.user) {
-            window.location.replace(window.location.origin + "/login");
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (!(props.url == window.location.origin + '/login' || props.url == window.location.origin + '/register') && !props.user) {
+    //         window.location.replace(window.location.origin + "/login");
+    //     }
+    // }, [])
 
     const logout = async () => {
         try {
@@ -48,10 +48,10 @@ function Header(props) {
                         {
                             props.admin ?
                                 <>
-                                    <Menu.Item key="Orders" icon={<DollarCircleOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
+                                    <Menu.Item key="Orders" icon={<DollarCircleOutlined />} onClick={() => window.location.href = window.location.origin + '/AdminOrder'}>
                                         Orders
                                     </Menu.Item>
-                                    <Menu.Item key="Add Bouquet" icon={<PlusCircleOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
+                                    <Menu.Item key="Add Bouquet" icon={<PlusCircleOutlined />} onClick={() => window.location.href = window.location.origin + '/AddBouquet'}>
                                         Add Bouquet
                                     </Menu.Item>
                                     <Menu.Item key="Edit Bouquest" icon={<EditOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>

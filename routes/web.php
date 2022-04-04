@@ -111,11 +111,13 @@ Route::middleware('jwt')->group(function () {
     Route::view('/orders', 'orders');
 
     Route::group(['middleware' => ['UserPage']], function () {
-    Route::view('/home', 'home')->name('home');
+    
     });
-
+    Route::view('/home', 'home')->name('home');
     Route::group(['middleware' => ['AdminPage']], function () {
     Route::view('/AdminOrder', 'Admin/AdminOrder')->name('AdminOrder');
+    Route::view('/AddBouquet', 'Admin/AddBouquet')->name('AddBouquet');
+
     });
     
     Route::view('/products', 'products');
