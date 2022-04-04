@@ -10,7 +10,11 @@ $user = Auth::user()->name;
 @endphp
 @endauth
 
-<div id='header' data-jwt={{$jwt}} data-user={{$user}} data-url={{url()->current()}}></div>
+@can('isAdmin')
+<div id='header' data-jwt={{$jwt}} data-user={{$user}} data-admin={{true}}></div>
+@else
+<div id='header' data-jwt={{$jwt}} data-user={{$user}}></div>
+@endcan
 
 <div>@yield('content')</div>
 

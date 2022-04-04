@@ -55,7 +55,7 @@ function Orders(props) {
         }
     ];
     const getData = async () => {
-        const res = await axios.get('http://127.0.0.1:8000/api/orders', {
+        const res = await axios.get(window.location.origin + '/api/orders', {
             headers: {
                 'Authorization': `Bearer ${props.jwt}`
             }
@@ -99,7 +99,7 @@ function Orders(props) {
                                             <Descriptions bordered layout="vertical">
 
                                                 <Descriptions.Item>
-                                                    <Image src={`http://localhost:8000/uploads/images/${item.details.bouquetImage}`} width='150'></Image>
+                                                    <Image src={`${window.location.origin}/uploads/images/${item.details.bouquetImage}`} width='150'></Image>
                                                 </Descriptions.Item>
                                                 <Descriptions.Item label="Name :">{item.details.bouequetName}</Descriptions.Item>
                                                 <Descriptions.Item label="Description :">{item.details.bouequetDescription}</Descriptions.Item>

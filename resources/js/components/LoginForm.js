@@ -8,10 +8,10 @@ const { Title, Link, Text } = Typography;
 function LoginForm(props) {
     const onFinish = async (values) => {
         try {
-            const res = await axios.post('http://127.0.0.1:8000/auth/login', values)
+            const res = await axios.post(window.location.origin + '/auth/login', values)
             if (res.status == 200) {
                 message.success('Login Success!');
-                window.location.replace("http://127.0.0.1:8000/home");
+                window.location.replace(window.location.origin + "/home");
             }
         } catch (err) {
             message.error('Login Failed!');
@@ -60,11 +60,11 @@ function LoginForm(props) {
                 </Form>
                 <Divider></Divider>
                 <Text>Dont have a account? </Text>
-                <Link href="http://127.0.0.1:8000/register">
+                <Link href={window.location.origin + '/register'} >
                     Register
                 </Link>
             </Card>
-        </Space>
+        </Space >
     );
 }
 
