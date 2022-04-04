@@ -45,24 +45,24 @@ function Header(props) {
                 {
                     props.user &&
                     <Menu mode="horizontal" theme='dark'>
+                        <Menu.Item key="Home" icon={<HomeOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
+                            Home
+                        </Menu.Item>
                         {
                             props.admin ?
                                 <>
                                     <Menu.Item key="Orders" icon={<DollarCircleOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
                                         Orders
                                     </Menu.Item>
-                                    <Menu.Item key="Add Bouquet" icon={<PlusCircleOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
+                                    <Menu.Item key="Add Bouquet" icon={<PlusCircleOutlined />} onClick={() => window.location.href = window.location.origin + '/addProducts'}>
                                         Add Bouquet
                                     </Menu.Item>
-                                    <Menu.Item key="Edit Bouquest" icon={<EditOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
+                                    <Menu.Item key="Edit Bouquest" icon={<EditOutlined />} onClick={() => window.location.href = window.location.origin + '/editProducts'}>
                                         Edit Bouquest
                                     </Menu.Item>
                                 </>
                                 :
                                 <>
-                                    <Menu.Item key="Home" icon={<HomeOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
-                                        Home
-                                    </Menu.Item>
                                     <Menu.Item key="Shop" icon={<TagsOutlined />} onClick={() => window.location.href = window.location.origin + '/products'}>
                                         Shop
                                     </Menu.Item>

@@ -15,81 +15,77 @@ class BouquetController extends Controller
     public function index()
     {
         $products = Bouquet::all();
-        // $types = Bouquet::all();
 
-        // return view('Bouquet', ['products' =>$products,'types' =>$types]);
         return $products;
     }
 
     //Products.blade.php
-    public function productList()
-    {
-        $products = Bouquet::all();
-        $types = Bouquet::all();
-        return view('layouts.products', ['products' => $products, 'types' => $types]);
-    }
+    // public function productList()
+    // {
+    //     $products = Bouquet::all();
+    //     $types = Bouquet::all();
+    //     return view('layouts.products', ['products' => $products, 'types' => $types]);
+    // }
 
-    public function type($type = null, $sort = null)
-    {
-        $types = Bouquet::all();
-        $products = Bouquet::all();
+    // public function type($type = null, $sort = null)
+    // {
+    //     $types = Bouquet::all();
+    //     $products = Bouquet::all();
 
-        if (Bouquet::where('type', $type)->exists()) {
-            $products = Bouquet::where('type', $type)->get();
-            return view('Bouquet', ['products' => $products, 'types' => $types]);
-        }
+    //     if (Bouquet::where('type', $type)->exists()) {
+    //         $products = Bouquet::where('type', $type)->get();
+    //         return view('Bouquet', ['products' => $products, 'types' => $types]);
+    //     }
 
-        if (request()->sort == 'low_high') {
-            $products = $products->sortBy('bouequetPrice');
-            return view('Bouquet', ['products' => $products, 'types' => $types]);
-        } else if (request()->sort == 'high_low') {
-            $products = $products->sortByDesc('bouequetPrice');
-            return view('Bouquet', ['products' => $products, 'types' => $types]);
-        } else if (request()->sort == 'Newest') {
-            $products = $products->sortByDesc('id');
-            return view('Bouquet', ['products' => $products, 'types' => $types]);
-        } else {
-            return redirect('Bouquet');
-        };
-    }
-    public function create()
-    {
-        if (Gate::allows('isAdmin')) {
-            dd('Admin allowed');
-        } else {
-            dd('You are not an Admin');
-        }
-    }
+    //     if (request()->sort == 'low_high') {
+    //         $products = $products->sortBy('bouequetPrice');
+    //         return view('Bouquet', ['products' => $products, 'types' => $types]);
+    //     } else if (request()->sort == 'high_low') {
+    //         $products = $products->sortByDesc('bouequetPrice');
+    //         return view('Bouquet', ['products' => $products, 'types' => $types]);
+    //     } else if (request()->sort == 'Newest') {
+    //         $products = $products->sortByDesc('id');
+    //         return view('Bouquet', ['products' => $products, 'types' => $types]);
+    //     } else {
+    //         return redirect('Bouquet');
+    //     };
+    // }
+    // public function create()
+    // {
+    //     if (Gate::allows('isAdmin')) {
+    //         dd('Admin allowed');
+    //     } else {
+    //         dd('You are not an Admin');
+    //     }
+    // }
 
-    public function addBouquet()
-    {
-        if (Gate::allows('isAdmin')) {
-            return view('bouquets.create');
-        } else {
-            return view('unauthorized');
-        }
-    }
+    // public function addBouquet()
+    // {
+    //     if (Gate::allows('isAdmin')) {
+    //         return view('bouquets.create');
+    //     } else {
+    //         return view('unauthorized');
+    //     }
+    // }
 
+    // public function edit($id)
+    // {
+    //     if (Gate::allows('isAdmin')) {
+    //         $bouquet = Bouquet::find($id);
+    //         return view('bouquets.edit', ['bouquet' => $bouquet]);
+    //     } else {
+    //         return view('unauthorized');
+    //     }
+    // }
 
-
-    public function edit($id)
-    {
-        if (Gate::allows('isAdmin')) {
-            $bouquet = Bouquet::find($id);
-            return view('bouquets.edit', ['bouquet' => $bouquet]);
-        } else {
-            return view('unauthorized');
-        }
-    }
-
-    public function delete()
-    {
-        if (Gate::allows('isAdmin')) {
-            dd('Admin allowed');
-        } else {
-            dd('You are not Admin');
-        }
-    }
+    // public function delete()
+    // {
+    //     if (Gate::allows('isAdmin')) {
+    //         dd('Admin allowed');
+    //     } else {
+    //         dd('You are not Admin');
+    //     }
+    // }
 
     /*
     public function show($id)
@@ -115,18 +111,17 @@ class BouquetController extends Controller
         return redirect('Bouquet');
     }
 
-    public function update(Bouquet $bouquet, Request $request)
+    public function update(Request $request)
     {
-
+        // return $request->id;
         //Validation for data input
         $validated_data = $request->validate([
             'bouequetName' => 'required|max:20',
             'bouequetDescription' => 'required|max:300',
             'bouequetPrice' => 'required|regex:/^\d+(\.\d{1,2})?$/',
-
         ]);
         //Find the Bouquet according to ID
-        $data = Bouquet::findOrFail($request->id);
+        $data = Bouquet::find($request->id);
         if ($request->hasfile('bouquetImage')) {
             $file = $request->file('bouquetImage');
             $extension = $file->getClientOriginalExtension(); //getting image extension
@@ -141,7 +136,7 @@ class BouquetController extends Controller
         //Fill Up if all data valid
         $data->fill($validated_data);
         $data->save();
-        return redirect('home');
+        return 'ok';
     }
 
     public function createBouquet(Request $request)

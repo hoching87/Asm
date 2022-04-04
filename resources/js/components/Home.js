@@ -8,6 +8,7 @@ const { Meta } = Card;
 
 
 function Home(props) {
+    console.log(props)
     const [contents, setContents] = useState();
     useEffect(() => {
         getProducts()
@@ -32,7 +33,13 @@ function Home(props) {
                                 hoverable
                                 style={{ width: 200 }}
                                 cover={<img alt="example" src={window.location.origin + `/uploads/images/${product.bouquetImage}`} />}
-                                onClick={() => window.location.href = window.location.origin + '/products'}
+                                onClick={() => {
+                                    if (props.admin)
+                                        window.location.href = window.location.origin + '/editProducts'
+                                    else
+                                        window.location.href = window.location.origin + '/products'
+                                }
+                                }
                             >
                                 <Meta title={product.bouequetName} description={`RM${product.bouequetPrice}`} />
                             </Card>

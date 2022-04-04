@@ -67,8 +67,8 @@ Route::group(['middleware' => ['protectedPage']], function () {
     Route::delete('/Bouquet/{id}', [BouquetController::class, 'destroy']);
     //Bouquet
     Route::post('/createBouquet', [BouquetController::class, 'createBouquet']);
-    Route::get('/UpdateBouquet/{id}', [BouquetController::class, 'edit'])->name('showUpdate');
-    Route::post('/UpdateBouquet/{id}', [BouquetController::class, 'update'])->name('updateBouquet');
+    // Route::get('/UpdateBouquet/{id}', [BouquetController::class, 'edit'])->name('showUpdate');
+    // Route::post('/UpdateBouquet/{id}', [BouquetController::class, 'update'])->name('updateBouquet');
 });
 
 //Middleware to check the account got the right to access to some pages or not
@@ -110,5 +110,6 @@ Route::middleware('jwt')->group(function () {
     Route::view('/cart', 'cart');
     Route::view('/orders', 'orders');
     Route::view('/products', 'products');
-    Route::get('/Bouquet', [BouquetController::class, 'index']);
+    Route::view('/addProducts', 'AddProducts');
+    Route::view('/editProducts', 'EditProducts');
 });

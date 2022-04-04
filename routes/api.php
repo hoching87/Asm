@@ -36,3 +36,4 @@ Route::get('/home', [HomeController::class, 'index']);
 Route::get('/orders', [OrderController::class, 'userViewOrderList']);
 Route::get('/products', [BouquetController::class, 'index']);
 Route::post('/comfirmorder', [OrderController::class, 'ConfirmOrder']);
+Route::post('/UpdateBouquet', [BouquetController::class, 'update']);
