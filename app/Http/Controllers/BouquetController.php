@@ -120,8 +120,8 @@ class BouquetController extends Controller
         // return $request->id;
         //Validation for data input
         $validated_data = $request->validate([
-            'bouequetName' => 'required|max:20',
-            'bouequetDescription' => 'required|max:300',
+            'bouequetName' => 'required|max:20| min:5',
+            'bouequetDescription' => 'required|max:300| min:5',
             'bouequetPrice' => 'required|regex:/^\d+(\.\d{1,2})?$/',
         ]);
         //Find the Bouquet according to ID
@@ -134,9 +134,7 @@ class BouquetController extends Controller
             $picture = time() . '.' . $filename;
             $file->move('uploads/images/', $picture);
             $data->bouquetImage = $picture;
-        } else {
-            $data->bouquetImage = 'No Pic';
-        }
+        } 
 
         if ($request->has('type')) {
             $data->type = $request->type;
@@ -154,11 +152,11 @@ class BouquetController extends Controller
         $bouquet = new Bouquet();
 
         $validated_data = $request->validate([
-            'bouequetName' => 'required|max:20',
-            'bouequetDescription' => 'required|max:300',
+            'bouequetName' => 'required|max:20|min:5',
+            'bouequetDescription' => 'required|max:300|min:5',
             'bouequetPrice' => 'required|regex:/^\d+(\.\d{1,2})?$/',
-            'type' => 'required'
-            
+            'type' => 'required',
+            'image' => 'required'
 
         ]);
         
@@ -170,8 +168,6 @@ class BouquetController extends Controller
             $picture = time() . '.' . $filename;
             $file->move('uploads/images/', $picture);
             $bouquet->bouquetImage = $picture;
-        } else {
-            $bouquet->bouquetImage = 'No Pic';
         }
         //Same logic
        

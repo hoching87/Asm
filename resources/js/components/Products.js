@@ -64,7 +64,9 @@ function Products(props) {
                                 cover={<img alt="img" src={`${window.location.origin}/uploads/images/${product.bouquetImage}`} />}
                             >
                                 <Space direction="vertical" size='small'>
-                                    <Meta title={product.bouequetName} description={`RM${product.bouequetPrice}`} />
+                                    <Meta title={'Bouquet Name :'} description={product.bouequetName} />
+                                    <Meta title={'Price :'} description={`Price : RM${product.bouequetPrice}`}/>
+                                    <Meta title={'Description :'} description={product.bouequetDescription} />
                                     {
                                         cart?.length &&
                                             cart.find(cartitem => cartitem.id == product.id) ?

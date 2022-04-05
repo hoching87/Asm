@@ -58,13 +58,26 @@ function AddBouquet(props) {
         } catch (error) {
             if (error.response) {
                 // Request made and server responded
-                let obj = JSON.parse(error.response.data)
-                console.log(obj);
-                Object.entries(obj).forEach(([key, value]) => {
-                    value.forEach((error) => {
-                        message.error(error);
-                    })
-                });
+                if(error.response.data.errors.bouequetName !==undefined)
+                {
+                    message.error(error.response.data.errors.bouequetName);
+                }
+                if(error.response.data.errors.bouequetDescription !==undefined)
+                {
+                     message.error(error.response.data.errors.bouequetDescription);
+                }
+                if(error.response.data.errors.bouequetPrice !==undefined)
+                {
+                     message.error(error.response.data.errors.bouequetPrice);
+                }
+                if(error.response.data.errors.type !==undefined)
+                {
+                     message.error(error.response.data.errors.type);
+                }
+                if(error.response.data.errors.image !==undefined)
+                {
+                     message.error(error.response.data.errors.image);
+                }
             } else if (error.request) {
                 // The request was made but no response was received
                 console.log(error.request);
@@ -178,7 +191,8 @@ function AddBouquet(props) {
 
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                        <><select name='type' style={{ width: 120 }} onChange={handleChange}>
+                        <><select name='type' style={{ width: 170 }} onChange={handleChange}>
+                        <option value=""> type of bouquet</option>
                             <option value="lilies">Lilies</option>
                             <option value="orchids">Orchids</option>
                             <option value="roses">Roses</option>

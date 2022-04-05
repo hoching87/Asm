@@ -32,10 +32,10 @@ class UserController extends Controller
         //Added validation 
         $data = User::find(auth()->id());
         $validated_data = $request->validate([
-            'name' => 'required|max:20',
-            'address' => 'required|max:300',
+            'name' => 'required|max:20|min :6',
+            'address' => 'required|max:300| min:15',
             'phone' => 'required|regex:/(\+?6?01)[0-46-9]-*[0-9]{7,8}/',
-            'email' => 'required | regex:/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/'
+            'email' => 'required | regex:/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[com]+$/'
         ]);
         
        $data->fill($validated_data);

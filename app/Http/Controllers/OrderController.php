@@ -54,8 +54,8 @@ class OrderController extends Controller
     {
         //validation
         $validated_data = $req->validate([
-            'reciever_name' => 'required|max:50',
-            'reciever_address' => 'required|max:300',
+            'reciever_name' => 'required|max:50|min:10',
+            'reciever_address' => 'required|max:300| min:10',
             'reciever_phone' => 'required|regex:/(\+?6?01)[0-46-9]-*[0-9]{7,8}/',
         ]);
 
@@ -64,7 +64,9 @@ class OrderController extends Controller
         $order->user_id = Auth::id();
         $order->date_ordered = Carbon::now();
         $order->items = $req->cart;
-        $order->fill($validated_data);
+        $order->reciever_name = $req->reciever_name;
+        $order->reciever_address = $req->reciever_address;
+        $order->reciever_phone = $req->reciever_phone;
 
         $order->save();
         return $order;

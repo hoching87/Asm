@@ -66,22 +66,38 @@ function Cart(props) {
             })
             console.log('comfirmorder', res)
             // console.log(values.concat(cart))
-            if (res.status == 200) {
+            if (res.statusText == 'Created') {
                 message.success('Order Success!');
                 await clearCart()
-                // window.location.replace(window.location.origin + "/home");
+                window.location.replace(window.location.origin + "/orders");
             }
         } catch (error) {
             if (error.response) {
                 // Request made and server responded
                 // let obj = JSON.parse(error.response)
                 console.log(error.response.data.message);
-                message.error(error.response.data.message);
+                
                 // Object.entries(obj).forEach(([key, value]) => {
                 //     value.forEach((error) => {
                 //         message.error(error);
                 //     })
                 // });
+                console.log(error.response.data);
+                //For validation
+                if(error.response.data.errors.reciever_phone !==undefined)
+                {
+                    message.error(error.response.data.errors.reciever_phone);
+                }
+                if(error.response.data.errors.reciever_name !==undefined)
+                {
+                     message.error(error.response.data.errors.reciever_name);
+                }
+                if(error.response.data.errors.reciever_address !==undefined)
+                {
+                     message.error(error.response.data.errors.reciever_address);
+                }
+                
+               
             } else if (error.request) {
                 // The request was made but no response was received
                 console.log(error.request);

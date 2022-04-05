@@ -64,8 +64,29 @@ function EditProducts(props) {
                 // window.location.replace(window.location.origin + "/home");
                 getProducts()
             }
-        } catch (err) {
-            message.error('Bouquet Update Failed!');
+        } catch (error) {
+            if (error.response) {
+                // Request made and server responded
+                if(error.response.data.errors.bouequetName !==undefined)
+                {
+                    message.error(error.response.data.errors.bouequetName);
+                }
+                if(error.response.data.errors.bouequetDescription !==undefined)
+                {
+                     message.error(error.response.data.errors.bouequetDescription);
+                }
+                if(error.response.data.errors.bouequetPrice !==undefined)
+                {
+                     message.error(error.response.data.errors.bouequetPrice);
+                }
+               
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
         }
     };
 

@@ -73,14 +73,22 @@ function UserInfo(props) {
             }
         } catch (error) {
             if (error.response) {
-                // Request made and server responded
-                // let obj = JSON.parse(error.response)
-                console.log(error.response.data.message);
-                // Object.entries(obj).forEach(([key, value]) => {
-                //     value.forEach((error) => {
-                //         message.error(error);
-                //     })
-                // });
+                if(error.response.data.errors.name !==undefined)
+                {
+                    message.error(error.response.data.errors.name);
+                }
+                if(error.response.data.errors.address !==undefined)
+                {
+                     message.error(error.response.data.errors.email);
+                }
+                if(error.response.data.errors.email !==undefined)
+                {
+                     message.error(error.response.data.errors.email);
+                }
+                if(error.response.data.errors.phone !==undefined)
+                {
+                     message.error(error.response.data.errors.phone);
+                }
             } else if (error.request) {
                 // The request was made but no response was received
                 console.log(error.request);
