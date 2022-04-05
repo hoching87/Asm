@@ -33,17 +33,28 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });
-
+//Homepage
 Route::get('/home', [HomeController::class, 'index']);
+//User view own orders
 Route::get('/orders', [OrderController::class, 'userViewOrderList']);
+//Admin view all orders request by users
 Route::get('/adminViewOrders', [OrderController::class, 'AdminViewOrderList']);
-
+//Retireve all bouquet
 Route::get('/products', [BouquetController::class, 'index']);
+//User confirm the order and checkout the cart list
 Route::post('/comfirmorder', [OrderController::class, 'ConfirmOrder']);
+//View personal information
 Route::get('PersonalInfo', [UserController::class, 'personalInfo'])->name('PersonalInfo');
+//Update personal information
 Route::post('/update', [UserController::class, 'update']);
+//User delete order
 Route::post('/DeleteOrder', [OrderController::class, 'DeleteOrder'])->name('DeleteOrder');
+//Admin accept order
 Route::post('/AcceptOrder', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
+//Add new bouquet
 Route::post('/createBouquet', [BouquetController::class, 'createBouquet'])->name('createBouquet');
-
+//Update bouquet
+Route::post('/UpdateBouquet', [BouquetController::class, 'update']);
+//Admin delete bouquet
+Route::post('/DeleteBouquet', [BouquetController::class, 'destroy'])->name('BouquetController');
 

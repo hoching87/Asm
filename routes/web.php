@@ -58,31 +58,31 @@ Route::middleware(['jwtheader'])->group(function () {
 });
 
 //Middleware to check the account got the right to access to some pages or not
-Route::group(['middleware' => ['protectedPage']], function () {
-    /*Route::get('PersonalInfo/{id}', [UserController::class, 'personalInfo'])->name('PersonalInfo');*/
-    Route::post('/orders/{id}', [OrderController::class, 'orderDetail'])->name('orders');
-    Route::get('/AddBouquet', [BouquetController::class, 'addBouquet'])->name('AddBouquet');
-    Route::get('/AdminViewOrderList', [OrderController::class, 'AdminViewOrderList'])->name('AdminViewOrders');
-    Route::put('AcceptOrder/{order_id}', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
-    Route::delete('/Bouquet/{id}', [BouquetController::class, 'destroy']);
-    //Bouquet
-    Route::post('/createBouquet', [BouquetController::class, 'createBouquet']);
-    Route::get('/UpdateBouquet/{id}', [BouquetController::class, 'edit'])->name('showUpdate');
-    Route::post('/UpdateBouquet/{id}', [BouquetController::class, 'update'])->name('updateBouquet');
-});
+// Route::group(['middleware' => ['protectedPage']], function () {
+//     /*Route::get('PersonalInfo/{id}', [UserController::class, 'personalInfo'])->name('PersonalInfo');*/
+//     Route::post('/orders/{id}', [OrderController::class, 'orderDetail'])->name('orders');
+//     Route::get('/AddBouquet', [BouquetController::class, 'addBouquet'])->name('AddBouquet');
+//     Route::get('/AdminViewOrderList', [OrderController::class, 'AdminViewOrderList'])->name('AdminViewOrders');
+//     Route::put('AcceptOrder/{order_id}', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
+//     Route::delete('/Bouquet/{id}', [BouquetController::class, 'destroy']);
+//     //Bouquet
+//     Route::post('/createBouquet', [BouquetController::class, 'createBouquet']);
+//     Route::get('/UpdateBouquet/{id}', [BouquetController::class, 'edit'])->name('showUpdate');
+//     Route::post('/UpdateBouquet/{id}', [BouquetController::class, 'update'])->name('updateBouquet');
+// });
 
-//Middleware to check the account got the right to access to some pages or not
-Route::group(['middleware' => ['protectedPage2']], function () {
-    //order
-    Route::get('/userViewOrderList', [OrderController::class, 'userViewOrderList'])->name('UserViewOrders');
-    Route::post('ConfirmOrder', [OrderController::class, 'ConfirmOrder'])->name('ConfirmOrder');
-    //Delete function for user only
-    Route::delete('DeleteOrder/{order_id}', [OrderController::class, 'DeleteOrder'])->name('DeleteOrder');
-    //Show edit page  for user only
-    Route::get('/ShowEditOrder/{order_id}', [OrderController::class, 'ShowEditOrder'])->name('ShowEditOrder');
-    //Confirm edit by user
-    Route::post('/EditOrder/{order_id}', [OrderController::class, 'EditOrder'])->name('EditOrder');
-});
+// //Middleware to check the account got the right to access to some pages or not
+// Route::group(['middleware' => ['protectedPage2']], function () {
+//     //order
+//     Route::get('/userViewOrderList', [OrderController::class, 'userViewOrderList'])->name('UserViewOrders');
+//     Route::post('ConfirmOrder', [OrderController::class, 'ConfirmOrder'])->name('ConfirmOrder');
+//     //Delete function for user only
+//     Route::delete('DeleteOrder/{order_id}', [OrderController::class, 'DeleteOrder'])->name('DeleteOrder');
+//     //Show edit page  for user only
+//     Route::get('/ShowEditOrder/{order_id}', [OrderController::class, 'ShowEditOrder'])->name('ShowEditOrder');
+//     //Confirm edit by user
+//     Route::post('/EditOrder/{order_id}', [OrderController::class, 'EditOrder'])->name('EditOrder');
+// });
 
 //order
 // Route::get('/orders', [OrderController::class, 'userViewOrderList'])->middleware('jwtheader');
@@ -104,24 +104,25 @@ Route::group([
 
 //To know whether got login or not
 Route::middleware('jwt')->group(function () {
+    // Route::get('/Bouquet', [BouquetController::class, 'index']);
+    //Public pages
     Route::view('/login', 'profile.login')->name('login');
-   
     Route::view('/register', 'profile.register');
-    Route::view('/cart', 'cart');
-    Route::view('/orders', 'orders');
+    Route::view('/home', 'home')->name('home');
+    Route::view('/userinfo', 'userinfo');
 
     Route::group(['middleware' => ['UserPage']], function () {
-    
+    Route::view('/cart', 'cart'); 
+    Route::view('/orders', 'orders');
+    Route::view('/products', 'products');
     });
-    Route::view('/home', 'home')->name('home');
+    
+
     Route::group(['middleware' => ['AdminPage']], function () {
     Route::view('/AdminOrder', 'Admin/AdminOrder')->name('AdminOrder');
     Route::view('/AddBouquet', 'Admin/AddBouquet')->name('AddBouquet');
-
+    Route::view('/editProducts', 'EditProducts');
     });
+   
     
-    Route::view('/products', 'products');
-    Route::get('/Bouquet', [BouquetController::class, 'index']);
-    Route::view('/userinfo', 'userinfo');
-
 });

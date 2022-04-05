@@ -16,25 +16,44 @@ function Home(props) {
     const getProducts = async () => {
         const res = await axios.get(window.location.origin + '/api/home');
         console.log('getProducts', res.data)
+        console.log(props)
+        
         setContents(res.data)
     }
 
+    const viewProducts = ()=>{
+        if(props.admin ==1)
+        {
+            window.location.href = window.location.origin + '/editProducts'
+        }
+        else
+        {
+            window.location.href = window.location.origin + '/products'
+        }
+    }
+
     return (
+        
         <Space direction="vertical" size="middle"
             style={{ display: 'flex', padding: 10, height: '100vh' }}>
             <Divider />
+            
             <Title level={4}>Our Products</Title>
             <Space wrap>
                 {
+                    
                     contents?.products.map(product => {
                         return (
                             <Card key={product.id}
+                            
                                 hoverable
                                 style={{ width: 200 }}
                                 cover={<img alt="example" src={window.location.origin + `/uploads/images/${product.bouquetImage}`} />}
-                                onClick={() => window.location.href = window.location.origin + '/products'}
+                                
+                                onClick={() => viewProducts()}
                             >
                                 <Meta title={product.bouequetName} description={`RM${product.bouequetPrice}`} />
+                                
                             </Card>
                         )
                     })

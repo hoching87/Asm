@@ -4,16 +4,11 @@ import 'antd/dist/antd.css';
 import axios from 'axios';
 import { Divider, Table, Descriptions, Image, Button, message } from 'antd';
 
-
-
-
-
 function AdminOrder(props) {
     const [orderData, setOrderData] = useState()
 
-    useEffect(() => {
-        getData()
-    }, [])
+    useEffect(() => {getData()}, [])
+
     const columns = [
         { title: 'id', dataIndex: 'id', key: 'id' },
         { title: 'reciever_name', dataIndex: 'reciever_name', key: 'reciever_name' },
@@ -39,8 +34,7 @@ function AdminOrder(props) {
         ,
         {
             title: 'Operation',
-            
-            render: (row) => {
+             render: (row) => {
                 if(row['status']=='pending')
                 {
                     return(
@@ -49,7 +43,7 @@ function AdminOrder(props) {
                     </Button>
                 )
                 }
-                else
+                else if(row['status']=='delivered')
                 {
                     return(
                         <> Order Accepted and delivered, no more action to perform</>
@@ -57,6 +51,15 @@ function AdminOrder(props) {
                        
                     ) 
                 }
+                else if(row['status']=='cancel')
+                {
+                    return(
+                        <> Order cancelled by user, no more action to perform</>
+                     
+                       
+                    ) 
+                }
+
     
     
             }

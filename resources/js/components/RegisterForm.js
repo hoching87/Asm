@@ -22,7 +22,7 @@ function RegisterForm(props) {
                 console.log(obj);
                 Object.entries(obj).forEach(([key, value]) => {
                     value.forEach((error) => {
-                        message.error(error);
+                        message.error(error.message.errors);
                     })
                 });
             } else if (error.request) {
@@ -48,6 +48,12 @@ function RegisterForm(props) {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
+                    labelCol={{
+                        span: 8,
+                    }}
+                    wrapperCol={{
+                        span: 10,
+                    }}
                 >
                     <Form.Item
                         label="Name"
@@ -59,21 +65,21 @@ function RegisterForm(props) {
                     <Form.Item
                         label="Email"
                         name="email"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{ required: true, message: 'Please input your email!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Address"
                         name="address"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{ required: true, message: 'Please input your address!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Phone"
                         name="phone"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{ required: true, message: 'Please input your phone!' }]}
                     >
                         <Input />
                     </Form.Item>
@@ -81,14 +87,14 @@ function RegisterForm(props) {
                     <Form.Item
                         label="password"
                         name="password"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{ required: true, message: 'Please input your password!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="password_confirmation"
                         name="password_confirmation"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{ required: true, message: 'Please input your password confirmation!' }]}
                     >
                         <Input />
                     </Form.Item>

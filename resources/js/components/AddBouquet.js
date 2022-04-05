@@ -124,7 +124,7 @@ function AddBouquet(props) {
                                 type="text"
                                 value={bouequetName}
                                 onChange={updateName}
-                                placeholder="Please enter your name"
+                                
                             />
                         </>
                     </Form.Item>
@@ -152,7 +152,7 @@ function AddBouquet(props) {
                                 type="text"
                                 value={bouequetPrice}
                                 onChange={updatePrice}
-                                placeholder="Please enter your name"
+                                
                             />
                         </>
                     </Form.Item>

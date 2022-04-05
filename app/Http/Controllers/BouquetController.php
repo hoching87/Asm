@@ -11,23 +11,69 @@ use Illuminate\Support\Facades\Validator;
 
 class BouquetController extends Controller
 {
-
-    public function index()
-    {
-        $products = Bouquet::all();
-        // $types = Bouquet::all();
-
-        // return view('Bouquet', ['products' =>$products,'types' =>$types]);
-        return $products;
-    }
-
     //Products.blade.php
-    public function productList()
+    // public function productList()
+    // {
+    //     $products = Bouquet::all();
+    //     $types = Bouquet::all();
+    //     return view('layouts.products', ['products' => $products, 'types' => $types]);
+    // }
+
+    // public function create()
+    // {
+    //     if (Gate::allows('isAdmin')) {
+    //         dd('Admin allowed');
+    //     } else {
+    //         dd('You are not an Admin');
+    //     }
+    // }
+
+    // public function addBouquet()
+    // {
+    //     if (Gate::allows('isAdmin')) {
+    //         return view('bouquets.create');
+    //     } else {
+    //         return view('unauthorized');
+    //     }
+    // }
+
+
+
+    // public function edit($id)
+    // {
+    //     if (Gate::allows('isAdmin')) {
+    //         $bouquet = Bouquet::find($id);
+    //         return view('bouquets.edit', ['bouquet' => $bouquet]);
+    //     } else {
+    //         return view('unauthorized');
+    //     }
+    // }
+
+    // public function delete()
+    // {
+    //     if (Gate::allows('isAdmin')) {
+    //         dd('Admin allowed');
+    //     } else {
+    //         dd('You are not Admin');
+    //     }
+    // }
+
+    /*
+    public function show($id)
     {
-        $products = Bouquet::all();
-        $types = Bouquet::all();
-        return view('layouts.products', ['products' => $products, 'types' => $types]);
+        $posts = Post::findOrFail($id);
+        return view('post.show', ['posts'=>$posts]);
+
     }
+    */
+    /*
+    public function show()
+    {
+        $bouquets = Post::all();
+        return view('ShowUserBouquet', ['bouquets'=>$bouquets]);
+
+    }
+    */
 
     public function type($type = null, $sort = null)
     {
@@ -52,87 +98,44 @@ class BouquetController extends Controller
             return redirect('Bouquet');
         };
     }
-    public function create()
+    
+    public function index()
     {
-        if (Gate::allows('isAdmin')) {
-            dd('Admin allowed');
-        } else {
-            dd('You are not an Admin');
-        }
+        $products = Bouquet::all();
+        // $types = Bouquet::all();
+
+        // return view('Bouquet', ['products' =>$products,'types' =>$types]);
+        return $products;
     }
 
-    public function addBouquet()
+    public function destroy(Request $request)
     {
-        if (Gate::allows('isAdmin')) {
-            return view('bouquets.create');
-        } else {
-            return view('unauthorized');
-        }
-    }
-
-
-
-    public function edit($id)
-    {
-        if (Gate::allows('isAdmin')) {
-            $bouquet = Bouquet::find($id);
-            return view('bouquets.edit', ['bouquet' => $bouquet]);
-        } else {
-            return view('unauthorized');
-        }
-    }
-
-    public function delete()
-    {
-        if (Gate::allows('isAdmin')) {
-            dd('Admin allowed');
-        } else {
-            dd('You are not Admin');
-        }
-    }
-
-    /*
-    public function show($id)
-    {
-        $posts = Post::findOrFail($id);
-        return view('post.show', ['posts'=>$posts]);
-
-    }
-    */
-    /*
-    public function show()
-    {
-        $bouquets = Post::all();
-        return view('ShowUserBouquet', ['bouquets'=>$bouquets]);
-
-    }
-    */
-
-    public function destroy($id)
-    {
-        $bouquet = Bouquet::find($id);
+        $bouquet = Bouquet::find($request ->id);
         $bouquet->delete();
-        return redirect('Bouquet');
+        return $bouquet;
     }
 
-    public function update(Bouquet $bouquet, Request $request)
+    public function update(Request $request)
     {
-
+        // return $request->id;
         //Validation for data input
         $validated_data = $request->validate([
             'bouequetName' => 'required|max:20',
             'bouequetDescription' => 'required|max:300',
             'bouequetPrice' => 'required|regex:/^\d+(\.\d{1,2})?$/',
-
         ]);
         //Find the Bouquet according to ID
-        $data = Bouquet::findOrFail($request->id);
-        if ($request->hasfile('bouquetImage')) {
-            $file = $request->file('bouquetImage');
-            $extension = $file->getClientOriginalExtension(); //getting image extension
-            $filename = time() . '.' . $extension;
-            $file->move('uploads/images/', $filename);
-            $data->bouquetImage = $filename;
+        $data = Bouquet::find($request->id);
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = $file->getClientOriginalName(); //getting image extension
+            $extension = $file->getClientOriginalExtension();
+
+            $picture = time() . '.' . $filename;
+            $file->move('uploads/images/', $picture);
+            $data->bouquetImage = $picture;
+        } else {
+            $data->bouquetImage = 'No Pic';
         }
 
         if ($request->has('type')) {
@@ -141,7 +144,7 @@ class BouquetController extends Controller
         //Fill Up if all data valid
         $data->fill($validated_data);
         $data->save();
-        return redirect('home');
+        return 'ok';
     }
 
     public function createBouquet(Request $request)

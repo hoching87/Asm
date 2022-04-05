@@ -48,21 +48,31 @@ function Header(props) {
                         {
                             props.admin ?
                                 <>
+                                    <Menu.Item key="Home" icon={<HomeOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
+                                        Home
+                                    </Menu.Item>
                                     <Menu.Item key="Orders" icon={<DollarCircleOutlined />} onClick={() => window.location.href = window.location.origin + '/AdminOrder'}>
                                         Orders
                                     </Menu.Item>
                                     <Menu.Item key="Add Bouquet" icon={<PlusCircleOutlined />} onClick={() => window.location.href = window.location.origin + '/AddBouquet'}>
                                         Add Bouquet
                                     </Menu.Item>
-                                    <Menu.Item key="Edit Bouquest" icon={<EditOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
+                                    <Menu.Item key="Edit Bouquest" icon={<EditOutlined />} onClick={() => window.location.href = window.location.origin + '/editProducts'}>
                                         Edit Bouquest
                                     </Menu.Item>
                                 </>
                                 :
+
                                 <>
+
                                     <Menu.Item key="Home" icon={<HomeOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
                                         Home
-                                    </Menu.Item>
+                                    </Menu.Item> 
+                                    {
+                                        !props.admin &&
+                                        <Menu.Item key="Order" icon={<PayCircleOutlined />}
+                                            onClick={() => window.location.href = window.location.origin + '/orders'}>Order</Menu.Item>
+                                    }
                                     <Menu.Item key="Shop" icon={<TagsOutlined />} onClick={() => window.location.href = window.location.origin + '/products'}>
                                         Shop
                                     </Menu.Item>
@@ -74,13 +84,10 @@ function Header(props) {
 
                         {
                             props.user ?
+
                                 <SubMenu key="SubMenu" title={props.user} icon={<UserOutlined />}>
-                                    {
-                                        !props.admin &&
-                                        <Menu.Item key="Order" icon={<PayCircleOutlined />}
-                                            onClick={() => window.location.href = window.location.origin + '/orders'}>Order</Menu.Item>
-                                    }
-                                    <Menu.Item key="personalinfo" icon={<SettingOutlined />}>personal info</Menu.Item>
+
+                                    <Menu.Item key="personalinfo" icon={<SettingOutlined />} onClick={() => window.location.href = window.location.origin + '/userinfo'}>personal info</Menu.Item>
                                     <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logout}>logout</Menu.Item>
                                 </SubMenu>
                                 :

@@ -30,27 +30,41 @@ function Orders(props) {
                 record.items.forEach((item) => {
                     total += item.price * item.quantity
                 })
+
                 return (
                     'RM' + total
-                    
+
                 )
             },
         }
         ,
         {
             title: 'Operation',
-            
             render: (row) => {
-                if(row['status']=='pending')
-                {
-                    return(
-                    <Button type="primary" htmlType="submit" onClick={()=>deleteOrder(row['id'])}>
-                    Cancel Order
-                    </Button>
-                )
+                if (row['status'] == 'pending') {
+                    return (
+                        <Button type="primary" htmlType="submit" onClick={() => deleteOrder(row['id'])}>
+                            Cancel Order
+                        </Button>
+                    )
                 }
-    
-    
+                else if (row['status'] == 'delivered') {
+                    return (
+                        <> Order Accepted and delivered, no more action to perform</>
+
+
+                    )
+                }
+                else if (row['status'] == 'cancel') {
+                    return (
+                        <> Order cancelled, no more action to perform</>
+
+
+                    )
+                }
+
+
+
             }
         }
     ];
@@ -69,9 +83,9 @@ function Orders(props) {
         setOrderData(res.data)
     }
 
-    const deleteOrder = async(id) => {
+    const deleteOrder = async (id) => {
         console.log(id)
-        const res = await axios.post('http://127.0.0.1:8000/api/DeleteOrder',{'id':id}, {
+        const res = await axios.post('http://127.0.0.1:8000/api/DeleteOrder', { 'id': id }, {
             headers: {
                 'Authorization': `Bearer ${props.jwt}`
             }
@@ -85,7 +99,7 @@ function Orders(props) {
         <>
             <Table
                 columns={columns}
-                
+
                 expandable={{
                     expandedRowRender: record => {
                         let total_price = 0;
@@ -109,11 +123,11 @@ function Orders(props) {
                                                 <Descriptions.Item label="Total Price :">RM{item.price * item.quantity}</Descriptions.Item>
 
                                             </Descriptions>
-                                           
+
                                             <Divider></Divider>
-                                            
+
                                         </div>
-                                        
+
                                     )
                                 })}
                             </>

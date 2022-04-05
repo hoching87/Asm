@@ -31,6 +31,12 @@ function LoginForm(props) {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="on"
+                    labelCol={{
+                        span: 8,
+                    }}
+                    wrapperCol={{
+                        span: 10,
+                    }}
                 >
                     <Form.Item
                         label="Email"

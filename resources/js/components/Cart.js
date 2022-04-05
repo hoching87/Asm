@@ -76,6 +76,7 @@ function Cart(props) {
                 // Request made and server responded
                 // let obj = JSON.parse(error.response)
                 console.log(error.response.data.message);
+                message.error(error.response.data.message);
                 // Object.entries(obj).forEach(([key, value]) => {
                 //     value.forEach((error) => {
                 //         message.error(error);
@@ -151,25 +152,31 @@ function Cart(props) {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
+                    labelCol={{
+                        span: 8,
+                    }}
+                    wrapperCol={{
+                        span: 10,
+                    }}
                 >
                     <Form.Item
                         label="reciever_name"
                         name="reciever_name"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{ required: true, message: 'Please input your reciver name!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="reciever_address"
                         name="reciever_address"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{ required: true, message: 'Please input your reciver address!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="reciever_phone"
                         name="reciever_phone"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{ required: true, message: 'Please input your reciver phone!' }]}
                     >
                         <Input />
                     </Form.Item>
