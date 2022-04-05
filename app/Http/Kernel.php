@@ -58,6 +58,12 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\UserRouteChecking::class,
 
         ],
+        'AdminRegister' => [
+            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            'throttle:api',
+            \App\Http\Middleware\AdminRegister::class,
+
+        ],
         'jwt' => [
             \App\Http\Middleware\jwtheader::class, //add jwt to header
         ]

@@ -117,6 +117,9 @@ Route::middleware('jwt')->group(function () {
     Route::view('/products', 'products');
     });
     
+    Route::group(['middleware' => ['AdminRegister']], function () {
+    Route::view('/AdminRegister', 'Admin/AdminRegister');
+    });
 
     Route::group(['middleware' => ['AdminPage']], function () {
     Route::view('/AdminOrder', 'Admin/AdminOrder')->name('AdminOrder');
