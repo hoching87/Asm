@@ -13,7 +13,7 @@ const { SubMenu } = Menu;
 function Header(props) {
     console.log('props', props)
     useEffect(() => {
-        if (!(props.url == window.location.origin + '/login' || props.url == window.location.origin + '/register') && !props.user) {
+        if (!(window.location.href == window.location.origin + '/login' || props.url == window.location.origin + '/register') && !props.user) {
             window.location.replace(window.location.origin + "/login");
         }
     }, [])
