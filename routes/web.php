@@ -106,7 +106,17 @@ Route::group([
 Route::middleware('jwt')->group(function () {
     // Route::get('/Bouquet', [BouquetController::class, 'index']);
     //Public pages
-    Route::view('/login', 'profile.login')->name('login');
+
+    // Route::view('/login', 'profile.login')->name('login');
+
+    Route::get('/login',function(){
+        if(auth()->user())
+        {
+            return redirect('home');
+        }
+        return view('profile.login');
+    })->name('login');
+
     Route::view('/register', 'profile.register');
     Route::view('/home', 'home')->name('home');
     Route::view('/userinfo', 'userinfo');
