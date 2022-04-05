@@ -8,6 +8,7 @@ const { Meta } = Card;
 
 
 function Home(props) {
+    console.log(props)
     const [contents, setContents] = useState();
     useEffect(() => {
         getProducts()
