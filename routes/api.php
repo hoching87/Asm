@@ -44,5 +44,6 @@ Route::get('PersonalInfo', [UserController::class, 'personalInfo'])->name('Perso
 Route::post('/update', [UserController::class, 'update']);
 Route::post('/DeleteOrder', [OrderController::class, 'DeleteOrder'])->name('DeleteOrder');
 Route::post('/AcceptOrder', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
+Route::post('/createBouquet', [BouquetController::class, 'createBouquet'])->name('createBouquet');
 
 

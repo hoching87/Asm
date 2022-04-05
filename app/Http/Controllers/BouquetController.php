@@ -154,24 +154,27 @@ class BouquetController extends Controller
             'bouequetName' => 'required|max:20',
             'bouequetDescription' => 'required|max:300',
             'bouequetPrice' => 'required|regex:/^\d+(\.\d{1,2})?$/',
-            'type' => 'required',
-            'bouquetImage' => 'required',
+            'type' => 'required'
+            
 
         ]);
+        
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = $file->getClientOriginalName(); //getting image extension
+            $extension = $file->getClientOriginalExtension();
 
-        if ($request->hasfile('bouquetImage')) {
-            $file = $request->file('bouquetImage');
-            $extension = $file->getClientOriginalExtension(); //getting image extension
-            $filename = time() . '.' . $extension;
-            $file->move('uploads/images/', $filename);
-            $bouquet->bouquetImage = $filename;
+            $picture = time() . '.' . $filename;
+            $file->move('uploads/images/', $picture);
+            $bouquet->bouquetImage = $picture;
         } else {
-            $bouquet->bouquetImage = '';
+            $bouquet->bouquetImage = 'No Pic';
         }
         //Same logic
+       
         $bouquet->fill($validated_data);
         $bouquet->save();
-
-        return redirect('home');
+       
+        return $bouquet;
     }
 }

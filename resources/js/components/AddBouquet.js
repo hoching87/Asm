@@ -1,23 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import { Form, Input, Button, Card, message, Space, Typography, Divider, Upload, Select } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 const { Link, Text } = Typography;
-const { Option } = Select;
+const { Option: option } = Select;
 
-function handleChange(value) {
-    console.log(`selected ${value}`);
-}
+
 function AddBouquet(props) {
+    const [selectedImage, setSelectedImage] = useState('');
+    const handleFileChange = (file) => {
+        setSelectedImage(file[0]);
+    }
+
+    const [bouequetName, setbouequetName] = useState("");
+    const updateName = (event) => {
+        setbouequetName(event.target.value);
+    };
+
+    const [bouequetDescription, setbouequetDescription] = useState("");
+    const updateDescription = (event) => {
+        setbouequetDescription(event.target.value);
+    };
+
+    const [bouequetPrice, setbouequetPrice] = useState("");
+    const updatePrice = (event) => {
+        setbouequetPrice(event.target.value);
+    };
+    
+    const [type, settype] = useState('');
+    function handleChange(event) {
+        settype(event.target.value);
+        console.log(`selected ${event.target.value}`);
+    }
+
     const onFinish = async (values) => {
-        values['role'] = 'user'
+
+        const dataArray = new FormData();
+        dataArray.append("image", selectedImage);
+        dataArray.append("bouequetName", bouequetName);
+        dataArray.append("bouequetDescription", bouequetDescription);
+        dataArray.append("bouequetPrice", bouequetPrice);
+        dataArray.append("type", type);
+        console.log(selectedImage)
+
+
         try {
-            const res = await axios.post(window.location.origin + '/auth/register', values)
-            console.log('res', res)
+            console.log('values', values)
+            const res = await axios.post(window.location.origin + '/api/createBouquet', dataArray, { headers: { 'Content-Type': 'multipart/form-data' } })
+
+            console.log('res', res.data)
             if (res.statusText == 'Created') {
-                message.success('Register Success!');
+                message.success('Bouquet Added!');
                 window.location.replace(window.location.origin + "/home");
             }
         } catch (error) {
@@ -44,15 +79,23 @@ function AddBouquet(props) {
         message.error('Error occured while add new bouquet!');
     };
 
-    const image = {
-        
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-        onChange({ file, fileList }) {
-            if (file.status !== 'uploading') {
-              console.log(file, fileList);
-            }
-          }
-    };
+    // const image = {
+    //     name: 'bouquetImage',
+    //     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    //     headers: {
+    //         authorization: 'authorization-text',
+    //       },
+    //       onChange(info) {
+    //         if (info.file.status !== 'uploading') {
+    //           console.log(info.file, info.fileList);
+    //         }
+    //         if (info.file.status === 'done') {
+    //           message.success(`${info.file.name} file uploaded successfully`);
+    //         } else if (info.file.status === 'error') {
+    //           message.error(`${info.file.name} file upload failed.`);
+    //         }
+    //       },
+    // };
 
     return (
         <Space align="baseline" style={{ display: 'flex', justifyContent: 'center', paddingTop: '5vh' }}>
@@ -69,53 +112,82 @@ function AddBouquet(props) {
                     wrapperCol={{
                         span: 10,
                     }}
+                    encType="multipart/form-data"
                 >
                     <Form.Item
                         label="Bouquet Name"
-                        name="bouequetName"
+
                         rules={[{ required: true, message: 'Please input bouquet name!' }]}
                     >
-                        <Input />
+                        <>
+                            <input
+                                type="text"
+                                value={bouequetName}
+                                onChange={updateName}
+                                placeholder="Please enter your name"
+                            />
+                        </>
                     </Form.Item>
                     <Form.Item
                         label="Description"
-                        name="bouequetDescription"
+
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                        <Input />
+                        <>
+                            <input
+                                type="text"
+                                value={bouequetDescription}
+                                onChange={updateDescription}
+
+                            />
+                        </>
                     </Form.Item>
                     <Form.Item
                         label="Bouquet Price"
-                        name="bouequetPrice"
+
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                        <Input />
+                        <>
+                            <input
+                                type="text"
+                                value={bouequetPrice}
+                                onChange={updatePrice}
+                                placeholder="Please enter your name"
+                            />
+                        </>
                     </Form.Item>
                     <Form.Item
                         label="Bouquet Image"
-                        name="bouquetImage"
+
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                        <Upload {...image}>
-                            <Button icon={<UploadOutlined />}>Click to Upload Bouquet Image</Button>
-                        </Upload>
+                        <><input
+                            type="file"
+                            name="image"
+                            onChange={e => {
+                                handleFileChange(e.target.files)
+                            }}
+                        /></>
+
+
                     </Form.Item>
 
 
                     <Form.Item
                         label="Bouquet Type"
-                        name="type"
+
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                        <Select  style={{ width: 120 }} onChange={handleChange}>
-                            <Option value="lilies">Lilies</Option>
-                            <Option value="orchids">Orchids</Option>
-                            <Option value="roses">Roses</Option>
-                            <Option value="tulip">Tulip</Option>
-                            <Option value="peony">Peony</Option>
-                            <Option value="sunflower">Sunflower</Option>
-                            <Option value="carnation">Carnation</Option>
-                        </Select>
+                        <><select name='type' style={{ width: 120 }} onChange={handleChange}>
+                            <option value="lilies">Lilies</option>
+                            <option value="orchids">Orchids</option>
+                            <option value="roses">Roses</option>
+                            <option value="tulip">Tulip</option>
+                            <option value="peony">Peony</option>
+                            <option value="sunflower">Sunflower</option>
+                            <option value="carnation">Carnation</option>
+                        </select></>
+
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
