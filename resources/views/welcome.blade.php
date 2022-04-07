@@ -18,7 +18,8 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <title>Florist shop</title>
-
+    <link rel="icon" href="https://th.bing.com/th/id/OIP.-UIdA1S5NEEky2d4yG9nGQHaHa?w=169&h=180&c=7&r=0&o=5&pid=1.7"
+        type="image/x-icon">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -427,7 +428,7 @@
             <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
             @if (Route::has('register'))
-            <a href="{{ url('/register/user') }}"
+            <a href="{{ route('register') }}"
                 class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
             @endif
             @endauth

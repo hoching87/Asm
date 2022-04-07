@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Auth;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Arr;
 class BouquetController extends Controller
 {
     //Products.blade.php
@@ -75,27 +75,30 @@ class BouquetController extends Controller
     }
     */
 
-    public function type($type = null, $sort = null)
+    public function type(Request $request)
     {
         $types = Bouquet::all();
         $products = Bouquet::all();
 
-        if (Bouquet::where('type', $type)->exists()) {
-            $products = Bouquet::where('type', $type)->get();
+        if (Bouquet::where('type', $request->type)->exists()) {
+            $products = Bouquet::where('type', $request->type)->get();
             return view('Bouquet', ['products' => $products, 'types' => $types]);
         }
 
-        if (request()->sort == 'low_high') {
-            $products = $products->sortBy('bouequetPrice');
-            return view('Bouquet', ['products' => $products, 'types' => $types]);
-        } else if (request()->sort == 'high_low') {
-            $products = $products->sortByDesc('bouequetPrice');
-            return view('Bouquet', ['products' => $products, 'types' => $types]);
-        } else if (request()->sort == 'Newest') {
-            $products = $products->sortByDesc('id');
-            return view('Bouquet', ['products' => $products, 'types' => $types]);
+        if (request()->price == 'Low_High') {
+            
+            $products = Bouquet::orderBy('bouequetPrice')->get(); 
+            
+            return $products;
+        } else if (request()->price == 'High_Low') {
+            $products = Bouquet::orderByDesc('bouequetPrice')->get(); 
+            return $products;
+        } else if (request()->price == 'Newest') {
+            $products = Bouquet::orderByDesc('id')->get(); 
+            
+            return $products;
         } else {
-            return redirect('Bouquet');
+            return $products;
         };
     }
     
@@ -154,7 +157,7 @@ class BouquetController extends Controller
         $validated_data = $request->validate([
             'bouequetName' => 'required|max:20|min:5',
             'bouequetDescription' => 'required|max:300|min:5',
-            'bouequetPrice' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'bouequetPrice' => 'required|regex:/^\d+(\.\d{1,2})?$/|numeric',
             'type' => 'required',
             'image' => 'required'
 

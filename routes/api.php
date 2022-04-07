@@ -58,3 +58,11 @@ Route::post('/UpdateBouquet', [BouquetController::class, 'update']);
 //Admin delete bouquet
 Route::post('/DeleteBouquet', [BouquetController::class, 'destroy'])->name('BouquetController');
 
+//Update order
+Route::post('/UpdateOrder', [OrderController::class, 'UpdateOrder']);
+
+
+//Delete user
+Route::post('/deleteUser', [UserController::class, 'delete']);
+
+Route::get('/type', [BouquetController::class, 'type']);

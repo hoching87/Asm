@@ -1,6 +1,7 @@
 @extends('components.header')
 
 @section('content')
+<title>Home</title>
 @can('isAdmin')
 <div id='home' data-admin={{true}}></div>
 @else

@@ -18,13 +18,48 @@ function RegisterForm(props) {
         } catch (error) {
             if (error.response) {
                 // Request made and server responded
-                let obj = JSON.parse(error.response.data)
-                console.log(obj);
-                Object.entries(obj).forEach(([key, value]) => {
-                    value.forEach((error) => {
-                        message.error(error.message.errors);
-                    })
-                });
+               // Request made and server responded
+               if(error.response.data.errors.name !==undefined)
+               {
+                   for(let i=0; i<error.response.data.errors.name; i++)
+                    {
+                        message.error(error.response.data.errors.name[i] );
+                    }
+               }
+               if(error.response.data.errors.email !==undefined)
+               {
+                    for(let i=0; i<error.response.data.errors.email; i++)
+                    {
+                        message.error(error.response.data.errors.email[i] );
+                    }
+               }
+               if(error.response.data.errors.phone !==undefined)
+               {
+                for(let i=0; i<error.response.data.errors.phone.length; i++)
+                {
+                    message.error(error.response.data.errors.phone[i] + '  Remember to add 60 infront');
+                }
+               }
+               if(error.response.data.errors.address !==undefined)
+               {
+                    for(let i=0; i<error.response.data.errors.address; i++)
+                    {
+                        message.error(error.response.data.errors.address[i] );
+                    }
+               }
+               if(error.response.data.errors.password !==undefined)
+               {
+                for(let i=0; i<error.response.data.errors.password; i++)
+                {
+                    message.error(error.response.data.errors.password[i] );
+                }
+               }
+               if(error.response.data.errors.confirmed_password !==undefined)
+               {
+                for(let i=0; i<error.response.data.errors.confirmed_password; i++)
+                {
+                    message.error(error.response.data.errors.confirmed_password[i] );
+                }               }
             } else if (error.request) {
                 // The request was made but no response was received
                 console.log(error.request);
@@ -94,7 +129,7 @@ function RegisterForm(props) {
                     </Form.Item>
                     <Form.Item
                         label="password_confirmation"
-                        name="password_confirmation"
+                        name="confirmed_password"
                         rules={[{ required: true, message: 'Please input your password confirmation!' }]}
                     >
                         <Input />

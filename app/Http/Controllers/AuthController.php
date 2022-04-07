@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Validator;
-
+use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     /**
@@ -49,26 +49,56 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'numeric'],
-            'role' => 'in:admin,user'
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
-        $user = User::create(array_merge(
-            $validator->validated(),
-            ['password' => bcrypt($request->password)]
-        ));
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user
-        ], 201);
+    $data = new User;
+    $validator = $request->validate([
+        'name' => 'required|max:20|min :6',
+        'address' => 'required|max:300| min:15',
+        'phone' => 'required|regex:/^(601)[0-46-9]*[0-9]{7,8}$/',
+        'password' => 'required|min:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
+        'confirmed_password' => 'required|same:password',
+        'email' => 'required | regex:/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[com]+$/|unique:users',
+        'role' => 'in:admin,user'
+    ]);
+
+    $data->name = $request->name;
+    $data->address = $request->address;    
+    $data->phone = $request->phone;
+    $data->email = $request->email;    
+    $data->password = Hash::make($request->password);
+    $data->role = $request->role;    
+    $data -> save();
+    return response()->json([
+        'message' => 'User successfully registered',
+        'user' => $data
+    ], 201);
+
     }
+    // public function register(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    //         'password' => ['required', 
+    //            'min:6', 
+    //            'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/', 
+    //            'confirmed'],
+    //         'confirmed_password' => ['required','same:password'],  
+    //         'address' => ['required', 'string', 'max:255'],
+    //         'phone' => ['required', 'numeric'],
+    //         'role' => 'in:admin,user'
+    //     ]);
+    //     if ($validator->fails()) {
+    //         return response()->json($validator->errors()->toJson(), 400);
+    //     }
+    //     $user = User::create(array_merge(
+    //         $validator->validated(),
+    //         ['password' => bcrypt($request->password)]
+    //     ));
+    //     return response()->json([
+    //         'message' => 'User successfully registered',
+    //         'user' => $user
+    //     ], 201);
+    // }
     /**
      * Log the user out (Invalidate the token).
      *

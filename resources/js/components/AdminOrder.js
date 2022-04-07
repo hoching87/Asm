@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import { Divider, Table, Descriptions, Image, Button, message } from 'antd';
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
 
 function AdminOrder(props) {
     const [orderData, setOrderData] = useState()
@@ -38,7 +40,7 @@ function AdminOrder(props) {
                 if(row['status']=='pending')
                 {
                     return(
-                    <Button type="primary" htmlType="submit" onClick={()=>deleteOrder(row['id'])}>
+                    <Button type="primary" htmlType="submit" onClick={()=>submit(row['id'])}>
                     Accept Order
                     </Button>
                 )
@@ -46,19 +48,12 @@ function AdminOrder(props) {
                 else if(row['status']=='delivered')
                 {
                     return(
-                        <> Order Accepted and delivered, no more action to perform</>
+                        <> <strong>Order Accepted and delivered, no more action to perform</strong></>
                      
                        
                     ) 
                 }
-                else if(row['status']=='cancel')
-                {
-                    return(
-                        <> Order cancelled by user, no more action to perform</>
-                     
-                       
-                    ) 
-                }
+                
 
     
     
@@ -80,7 +75,7 @@ function AdminOrder(props) {
         setOrderData(res.data)
     }
 
-    const deleteOrder = async(id) => {
+    const AcceptOrder = async(id) => {
         console.log(id)
         const res = await axios.post('http://127.0.0.1:8000/api/AcceptOrder',{'id':id}, {
             headers: {
@@ -91,6 +86,24 @@ function AdminOrder(props) {
         console.log(res)
         getData()
     }
+
+    const submit = (value) => {
+        confirmAlert({
+          title: 'Confirm to accept order?',
+          message: 'Once the order accepted and delivered then no more actions to perform!',
+          
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => AcceptOrder(value)
+            },
+            {
+              label: 'No',
+              onClick: () => message.success('Order undelivered')
+            }
+          ]
+        });
+      };
 
     return (
         <>

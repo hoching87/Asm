@@ -12,11 +12,19 @@ const { SubMenu, Item } = Menu;
 
 function Header(props) {
     console.log('props', props)
-    useEffect(() => {
-        if (!(window.location.href == window.location.origin + '/login' || props.url == window.location.origin + '/register') && !props.user) {
-            window.location.replace(window.location.origin + "/login");
+    // useEffect(() => {
+    //     if (!(window.location.href == window.location.origin + '/login' || props.url == window.location.origin + '/register') && !props.user) {
+    //         window.location.replace(window.location.origin + "/login");
+    //     }
+    // }, [])
+
+    const clearCart = async () => {
+        let res = await axios.post(window.location.origin + '/clear')
+        console.log('clearCart', res)
+        if (res.status == 200) {
+            location.reload();
         }
-    }, [])
+    }
 
     const logout = async () => {
         try {
@@ -28,6 +36,7 @@ function Header(props) {
 
             if (res.status == 200) {
                 message.warning('Log Out Seccessful!');
+                await clearCart()
                 window.location.replace(window.location.origin + "/login");
             }
         }
@@ -51,9 +60,7 @@ function Header(props) {
                         {
                             props.admin ?
                                 <>
-                                    <Menu.Item key="Home" icon={<HomeOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
-                                        Home
-                                    </Menu.Item>
+                                   
                                     <Menu.Item key="Orders" icon={<DollarCircleOutlined />} onClick={() => window.location.href = window.location.origin + '/AdminOrder'}>
                                         Orders
                                     </Menu.Item>
@@ -68,9 +75,7 @@ function Header(props) {
 
                                 <>
 
-                                    <Menu.Item key="Home" icon={<HomeOutlined />} onClick={() => window.location.href = window.location.origin + '/home'}>
-                                        Home
-                                    </Menu.Item> 
+                                    
                                     {
                                         !props.admin &&
                                         <Menu.Item key="Order" icon={<PayCircleOutlined />}

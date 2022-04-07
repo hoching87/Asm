@@ -56,7 +56,7 @@ class OrderController extends Controller
         $validated_data = $req->validate([
             'reciever_name' => 'required|max:50|min:10',
             'reciever_address' => 'required|max:300| min:10',
-            'reciever_phone' => 'required|regex:/(\+?6?01)[0-46-9]-*[0-9]{7,8}/',
+            'reciever_phone' => 'required|regex:/^(601)[0-46-9]*[0-9]{7,8}$/',
         ]);
 
         $order = new Order;
@@ -95,8 +95,7 @@ class OrderController extends Controller
         // return view('layouts.order', ['orderList' => $orderList]);
 
         $order = Order::find($req -> id);
-        $order -> status = 'cancel';
-        $order->save();
+        $order -> delete();
         return $order;
     }
 
@@ -108,19 +107,25 @@ class OrderController extends Controller
     //     return view('layouts.showEditOrder', ['orderList' => $orderList]);
     // }
 
-    // //User confirm edit orders
-    // public function EditOrder($order_id, Request $req)
-    // {
-    //     $date = Carbon::now()->format('Y-m-d');
+    //User confirm edit orders
+    public function UpdateOrder( Request $req)
+    {
+        $date = Carbon::now()->format('Y-m-d');
 
-    //     $validated_data = $req->validate([
-    //         'reciever_name' => 'required|max:20',
-    //         'reciever_address' => 'required|max:300',
-    //         'reciever_phone' => 'required|regex:/(\+?6?01)[0-46-9]-*[0-9]{7,8}/',
-    //     ]);
-    //     $order = DB::update("Update orders SET reciever_name='$req->reciever_name',reciever_address='$req->reciever_address',reciever_phone='$req->reciever_phone' where order_id =$order_id ");
+        $validated_data = $req->validate([
+            'reciever_name' => 'required|max:50|min:6',
+            'reciever_address' => 'required|max:300| min:15',
+            'reciever_phone' => 'required|regex:/^(601)[0-46-9]*[0-9]{7,8}$/|digits:11',
+                                
+        ]);
+        $order = Order::find($req -> id);
+        $order->reciever_name = $req->reciever_name;
+        $order->reciever_address = $req->reciever_address;
+        $order->reciever_phone = $req->reciever_phone;
 
-    //     $orderList = Order::all();
-    //     return view('layouts.order', ['orderList' => $orderList]);
-    // }
+        $order->save();
+        return $order;
+
+      
+    }
 }

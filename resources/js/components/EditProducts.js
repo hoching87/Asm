@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import { Space, Card, Typography, Button, Divider, Modal, Form, Input, message, Upload } from 'antd';
+import { Space, Card, Typography, Button, Divider, Modal, Form, Input, message, Upload, Select } from 'antd';
 const { Title } = Typography;
 const { Meta } = Card;
 import { EditFilled, DeleteFilled, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
 
 function EditProducts(props) {
     const [products, setProducts] = useState();
@@ -14,6 +16,8 @@ function EditProducts(props) {
     // const [loading, setLoading] = useState();
     // const [imageUrl, setImageUrl] = useState();
     const [selectedImage, setSelectedImage] = useState('');
+    const [type, settype] = useState('');
+    const [price, setPrice] = useState('');
 
     const handleFileChange = (file) => {
         setSelectedImage(file[0]);
@@ -38,6 +42,23 @@ function EditProducts(props) {
         SetModalData(data)
         modalToggle()
     }
+
+    const submit = (value) => {
+        confirmAlert({
+          title: 'Confirm to delete this bouquet?',
+          message: 'Are you sure to delete this bouquet?.',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => DeleteBouquet(value)
+            },
+            {
+              label: 'No',
+              onClick: () => message.success('Bouquet unchanged')
+            }
+          ]
+        });
+      };
 
     const onFinish = async (values) => {
         const dataArray = new FormData();
@@ -145,40 +166,120 @@ function EditProducts(props) {
         getProducts()
     }
 
+    function handleChange1(value) {
+        settype(value);
+        console.log(`selected ${value}`);
+    }
+
+    const handleChange2= async (price) => {
+        setPrice(price);
+        console.log(`selected ${price}`);
+        let res = await axios.get(window.location.origin + '/api/type', { params: { 'price': price } })
+        console.log('getProducts', res.data)
+        let result = Object.values(res.data);
+        // let sorted;
+        // for(let i=0; i<result.length;i++){
+            
+        // let price = result[i].bouequetPrice;
+       
+        // sorted = [...result].sort((a, b) => b[price] - a[price]).reverse();
+        
+        // }
+       
+        // console.log('Sorted Result',sorted)
+        // for(let i=0; i<result.length;i++){
+        // let price = result[i].bouequetPrice;
+        // console.log('Price',price);
+        // }
+        setProducts(result)
+
+    }
     return (
         <>
             <Title level={4}>Our Products</Title>
             <Divider> </Divider>
+            <Select defaultValue="Sort By Type"  style={{ width: 200 }} onChange={handleChange1}>
+                    <Select.Option value="All">All Bouquet Type</Select.Option>
+                    <Select.Option value="lilies">Lilies</Select.Option>
+                    <Select.Option value="orchids">Orchids</Select.Option>
+                    <Select.Option value="roses">Roses</Select.Option>
+                    <Select.Option value="tulip">Tulip</Select.Option>
+                    <Select.Option value="peony">Peony</Select.Option>
+                    <Select.Option value="sunflower">Sunflower</Select.Option>
+                    <Select.Option value="carnation">Carnation</Select.Option>
+            </Select> 
+            
+            <Select defaultValue="Sort By Price" style={{ width: 200 }} onChange={handleChange2}>
+            <Select.Option value="All">All</Select.Option>
+                    <Select.Option value="Low_High">Low to High</Select.Option>
+                    <Select.Option value="High_Low">High to Low</Select.Option>
+                    <Select.Option value="Newest">Newest</Select.Option>
+            </Select>
+            <Divider> </Divider>
             <Space wrap>
                 {
                     products?.map(product => {
-                        return (
-                            <Card key={product.id}
-                                style={{ width: 250 }}
-                                cover={<img alt="img" src={`${window.location.origin}/uploads/images/${product.bouquetImage}`} />}
-                            >
-                                <Space direction="vertical" size='small'>
-                                    <Meta title={product.bouequetName} description={`RM${product.bouequetPrice}`} />
-                                    <Space>
-                                        <Button type='primary' icon={<EditFilled />}
-                                            onClick={() => OpenModal(product)}
-                                        >Edit</Button>
-                                        <Button icon={<DeleteFilled />} danger
-                                            onClick={
-                                                () => DeleteBouquet(product.id)
-                                            }
-                                        >Delete</Button>
+                        if(type==product.type)
+                        {
+                            return (
+                                <Card key={product.id}
+                                    style={{ width: 250 }}
+                                    cover={<img alt="img" src={`${window.location.origin}/uploads/images/${product.bouquetImage}`} />}
+                                >
+                                    <Space direction="vertical" size='small'>
+                                    <Meta title={'Bouquet Name :'} description={product.bouequetName} />
+                                    <Meta title={'Price :'} description={`Price : RM${product.bouequetPrice}`} />
+                                    <Meta title={'Description :'} description={product.bouequetDescription} />
+                                    <Meta title={'Type :'} description={product.type} />
+                                        <Space>
+                                            <Button type='primary' icon={<EditFilled />}
+                                                onClick={() => OpenModal(product)}
+                                            >Edit</Button>
+                                            <Button icon={<DeleteFilled />} danger
+                                                onClick={
+                                                    () => DeleteBouquet(product.id)
+                                                }
+                                            >Delete</Button>
+                                        </Space>
                                     </Space>
-                                </Space>
-
-                            </Card>
-                        )
+    
+                                </Card>
+                            )
+                        }
+                        else if(type =='All' || type =='')
+                        {
+                            return (
+                                <Card key={product.id}
+                                    style={{ width: 250 }}
+                                    cover={<img alt="img" src={`${window.location.origin}/uploads/images/${product.bouquetImage}`} />}
+                                >
+                                    <Space direction="vertical" size='small'>
+                                    <Meta title={'Bouquet Name :'} description={product.bouequetName} />
+                                    <Meta title={'Price :'} description={`Price : RM${product.bouequetPrice}`} />
+                                    <Meta title={'Description :'} description={product.bouequetDescription} />
+                                    <Meta title={'Type :'} description={product.type} />
+                                        <Space>
+                                            <Button type='primary' icon={<EditFilled />}
+                                                onClick={() => OpenModal(product)}
+                                            >Edit</Button>
+                                            <Button icon={<DeleteFilled />} danger
+                                                onClick={
+                                                    () => submit(product.id)
+                                                }
+                                            >Delete</Button>
+                                        </Space>
+                                    </Space>
+    
+                                </Card>
+                            )
+                        }
+                        
                     })
                 }
             </Space>
             {
                 modalData &&
-                <Modal title="Basic Modal" visible={isModalVisible} onOk={modalToggle} onCancel={modalToggle}>
+                <Modal title="Edit Bouquet" visible={isModalVisible} onOk={modalToggle} onCancel={modalToggle}>
 
                     <Form
                         name="basic"

@@ -56,7 +56,7 @@ function Cart(props) {
     const onFinish = async (values) => {
         try {
             if (!cart.length)
-                throw ('Empty Cart')
+                throw ('Unable To Place Order On Empty Cart')
             const res = await axios.post(window.location.origin + '/api/comfirmorder', {
                 ...values, cart
             }, {
@@ -86,7 +86,7 @@ function Cart(props) {
                 //For validation
                 if(error.response.data.errors.reciever_phone !==undefined)
                 {
-                    message.error(error.response.data.errors.reciever_phone);
+                    message.error(error.response.data.errors.reciever_phone+' Remember to add 60 infront');
                 }
                 if(error.response.data.errors.reciever_name !==undefined)
                 {
@@ -192,9 +192,10 @@ function Cart(props) {
                     <Form.Item
                         label="reciever_phone"
                         name="reciever_phone"
+                        
                         rules={[{ required: true, message: 'Please input your reciver phone!' }]}
                     >
-                        <Input />
+                        <Input placeholder="Remember to add 60 infront" />
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

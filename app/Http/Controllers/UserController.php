@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Order;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -34,13 +35,41 @@ class UserController extends Controller
         $validated_data = $request->validate([
             'name' => 'required|max:20|min :6',
             'address' => 'required|max:300| min:15',
-            'phone' => 'required|regex:/(\+?6?01)[0-46-9]-*[0-9]{7,8}/',
-            'email' => 'required | regex:/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[com]+$/'
+            'phone' => 'required|regex:/^(601)[0-46-9]*[0-9]{7,8}$/|digits:11',
         ]);
-        
-       $data->fill($validated_data);
+        if($data->email == $request->email){
+            $data->fill($validated_data);
+        }
+        else
+        {
+            $validated_data = $request->validate([
+                'name' => 'required|max:20|min :6',
+                'address' => 'required|max:300| min:15',
+                'phone' => 'required|regex:/^(601)[0-46-9]*[0-9]{7,8}$/|digits:11',
+                'email' => 'required | regex:/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[com]+$/|unique:users'
+            ]);
+            $data->fill($validated_data);
+        }
+       
 
         $data -> save();
         return $data;
+    }
+
+    public function delete(Request $req)
+    {
+        // $user_id = Auth::id();
+        // $DeleteOrder = DB::delete("Delete FROM orders where order_id = $order_id");
+        // $DeleteOrderDetails = DB::delete("Delete FROM order_details where order_id = $order_id");
+
+        // $orderList = Order::all();
+        // return view('layouts.order', ['orderList' => $orderList]);
+        
+         $id =$req->id;
+        $deleteOrders = DB::delete("Delete FROM orders where user_id = $id ");
+     
+        $user = User::find($req -> id);
+        $user -> delete();
+       
     }
 }

@@ -109,6 +109,7 @@ Route::middleware('jwt')->group(function () {
 
     // Route::view('/login', 'profile.login')->name('login');
 
+    //Public page if user not login then redirect them to login page
     Route::get('/login',function(){
         if(auth()->user())
         {
@@ -117,20 +118,46 @@ Route::middleware('jwt')->group(function () {
         return view('profile.login');
     })->name('login');
 
-    Route::view('/register', 'profile.register');
-    Route::view('/home', 'home')->name('home');
-    Route::view('/userinfo', 'userinfo');
+    //User register page if user already login then redirect them to home page
+    Route::get('/register',function(){
+        if(auth()->user())
+        {
+            return redirect('home');
+        }
+        return view('profile.register');
+    })->name('register');
 
+    //Public page if user already login then redirect them to home page
+    Route::get('/home',function(){
+        if(auth()->user())
+        {
+            return view('home');
+        }
+        return view('profile.login');
+    })->name('home');
+
+     //Public page if user not login then redirect them to login page
+    Route::get('/userinfo',function(){
+        if(auth()->user())
+        {
+            return view('userinfo');
+        }
+        return view('profile.login');
+    })->name('userinfo');
+
+    //Page for user to access only
     Route::group(['middleware' => ['UserPage']], function () {
     Route::view('/cart', 'cart'); 
     Route::view('/orders', 'orders');
     Route::view('/products', 'products');
     });
     
+    //Page for admin to register, if want register admin type in key=qwe123 in url -> example: <http://127.0.0.1:8000/AdminRegister?key=qwe123>
     Route::group(['middleware' => ['AdminRegister']], function () {
     Route::view('/AdminRegister', 'Admin/AdminRegister');
     });
 
+    //Page for admin to access only
     Route::group(['middleware' => ['AdminPage']], function () {
     Route::view('/AdminOrder', 'Admin/AdminOrder')->name('AdminOrder');
     Route::view('/AddBouquet', 'Admin/AddBouquet')->name('AddBouquet');
