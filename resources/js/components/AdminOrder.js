@@ -122,7 +122,7 @@ function AdminOrder(props) {
                                         <div key={item.id}>
                                             <Descriptions bordered layout="vertical">
 
-                                                <Descriptions.Item>
+                                                <Descriptions.Item label="Image :">
                                                     <Image src={`http://localhost:8000/uploads/images/${item.details.bouquetImage}`} width='150'></Image>
                                                 </Descriptions.Item>
                                                 <Descriptions.Item label="Name :">{item.details.bouequetName}</Descriptions.Item>

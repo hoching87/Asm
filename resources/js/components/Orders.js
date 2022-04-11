@@ -148,7 +148,6 @@ function Orders(props) {
             )
             if (res.status == 200) {
                 message.success('Order Update Success!');
-                // window.location.replace(window.location.origin + "/home");
                 getData()
             }
         } catch (error) {

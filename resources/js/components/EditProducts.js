@@ -13,8 +13,6 @@ function EditProducts(props) {
     const [products, setProducts] = useState();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalData, SetModalData] = useState();
-    // const [loading, setLoading] = useState();
-    // const [imageUrl, setImageUrl] = useState();
     const [selectedImage, setSelectedImage] = useState('');
     const [type, settype] = useState('');
     const [price, setPrice] = useState('');
@@ -27,9 +25,19 @@ function EditProducts(props) {
     }, [])
 
     const getProducts = async () => {
-        let res = await axios.get(window.location.origin + '/api/products');
+        if(price!== null){
+            let res = await axios.get(window.location.origin + '/api/type', { params: { 'price': price } })
+            console.log('getProducts', res.data)
+            let result = Object.values(res.data);
+         
+            setProducts(result)
+        }
+        else{
+             let res = await axios.get(window.location.origin + '/api/products');
         console.log('getProducts', res.data)
         setProducts(res.data)
+        }
+       
     }
 
     const modalToggle = () => {
@@ -115,44 +123,7 @@ function EditProducts(props) {
         message.error('Upload Error!');
     };
 
-    // const handleChange = info => {
-    //     if (info.file.status === 'uploading') {
-    //         setLoading(true);
-    //         return;
-    //     }
-    //     if (info.file.status === 'done') {
-    //         // Get this url from response in real world.
-    //         getBase64(info.file.originFileObj, imageUrl => {
-    //             setImageUrl(imageUrl)
-    //             setLoading(false)
-    //         });
-    //     }
-    // };
-
-    // function getBase64(img, callback) {
-    //     const reader = new FileReader();
-    //     reader.addEventListener('load', () => callback(reader.result));
-    //     reader.readAsDataURL(img);
-    // }
-
-    // function beforeUpload(file) {
-    //     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    //     if (!isJpgOrPng) {
-    //         message.error('You can only upload JPG/PNG file!');
-    //     }
-    //     const isLt2M = file.size / 1024 / 1024 < 2;
-    //     if (!isLt2M) {
-    //         message.error('Image must smaller than 2MB!');
-    //     }
-    //     return isJpgOrPng && isLt2M;
-    // }
-
-    // const uploadButton = (
-    //     <div>
-    //         {loading ? <LoadingOutlined /> : <PlusOutlined />}
-    //         <div style={{ marginTop: 8 }}>Upload</div>
-    //     </div>
-    // );
+ 
 
     const DeleteBouquet = async (id) => {
         console.log(id)
@@ -177,20 +148,7 @@ function EditProducts(props) {
         let res = await axios.get(window.location.origin + '/api/type', { params: { 'price': price } })
         console.log('getProducts', res.data)
         let result = Object.values(res.data);
-        // let sorted;
-        // for(let i=0; i<result.length;i++){
-            
-        // let price = result[i].bouequetPrice;
-       
-        // sorted = [...result].sort((a, b) => b[price] - a[price]).reverse();
-        
-        // }
-       
-        // console.log('Sorted Result',sorted)
-        // for(let i=0; i<result.length;i++){
-        // let price = result[i].bouequetPrice;
-        // console.log('Price',price);
-        // }
+     
         setProducts(result)
 
     }
@@ -237,7 +195,7 @@ function EditProducts(props) {
                                             >Edit</Button>
                                             <Button icon={<DeleteFilled />} danger
                                                 onClick={
-                                                    () => DeleteBouquet(product.id)
+                                                    () => submit(product.id)
                                                 }
                                             >Delete</Button>
                                         </Space>

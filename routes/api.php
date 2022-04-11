@@ -65,4 +65,5 @@ Route::post('/UpdateOrder', [OrderController::class, 'UpdateOrder']);
 //Delete user
 Route::post('/deleteUser', [UserController::class, 'delete']);
 
+//Sort the bouquet according to the price from low-high, price from high-low, newest added bouquet
 Route::get('/type', [BouquetController::class, 'type']);

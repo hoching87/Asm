@@ -12,11 +12,7 @@ const { SubMenu, Item } = Menu;
 
 function Header(props) {
     console.log('props', props)
-    // useEffect(() => {
-    //     if (!(window.location.href == window.location.origin + '/login' || props.url == window.location.origin + '/register') && !props.user) {
-    //         window.location.replace(window.location.origin + "/login");
-    //     }
-    // }, [])
+ 
 
     const clearCart = async () => {
         let res = await axios.post(window.location.origin + '/clear')

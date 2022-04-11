@@ -6,7 +6,8 @@ import { Form, Input, Button, Card, message, Space, Typography, Divider, Upload,
 import { UploadOutlined } from '@ant-design/icons';
 const { Link, Text } = Typography;
 const { Option: option } = Select;
-
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
 
 function AddBouquet(props) {
     const [selectedImage, setSelectedImage] = useState('');
@@ -35,8 +36,7 @@ function AddBouquet(props) {
         console.log(`selected ${event.target.value}`);
     }
 
-    const onFinish = async (values) => {
-
+    const submit =async (values) => {
         const dataArray = new FormData();
         dataArray.append("image", selectedImage);
         dataArray.append("bouequetName", bouequetName);
@@ -86,29 +86,31 @@ function AddBouquet(props) {
                 console.log('Error', error.message);
             }
         }
+      };
+
+    const onFinish = async (values) => {
+        confirmAlert({
+            title: 'Confirm to add this bouquet?',
+            message: 'Are you sure to add this bouquet?.',
+            buttons: [
+              {
+                label: 'Yes',
+                onClick: () => submit(values)
+              },
+              {
+                label: 'No',
+                onClick: () => message.success('Bouquet does not added')
+              }
+            ]
+          });
+        
     };
 
     const onFinishFailed = (errorInfo) => {
         message.error('Error occured while add new bouquet!');
     };
 
-    // const image = {
-    //     name: 'bouquetImage',
-    //     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    //     headers: {
-    //         authorization: 'authorization-text',
-    //       },
-    //       onChange(info) {
-    //         if (info.file.status !== 'uploading') {
-    //           console.log(info.file, info.fileList);
-    //         }
-    //         if (info.file.status === 'done') {
-    //           message.success(`${info.file.name} file uploaded successfully`);
-    //         } else if (info.file.status === 'error') {
-    //           message.error(`${info.file.name} file upload failed.`);
-    //         }
-    //       },
-    // };
+
 
     return (
         <Space align="baseline" style={{ display: 'flex', justifyContent: 'center', paddingTop: '5vh' }}>
@@ -206,7 +208,7 @@ function AddBouquet(props) {
 
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                         <Button type="primary" htmlType="submit">
-                            Submit
+                            Add Bouquet
                         </Button>
                     </Form.Item>
                 </Form>

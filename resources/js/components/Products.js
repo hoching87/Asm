@@ -85,28 +85,7 @@ function Products(props) {
 
     }
 
-//     function handleStatus()
-//     {
-//         let res = await axios.get(window.location.origin + '/api/products');
-//         console.log('getProducts', res.data)
-//         setProducts(res.data)
-//     }
-  
-//     const [MyArray, setMyArray] = useState([]);
-//     const [sortStatus, setSortStatus] = useState(true);
 
-//   const handleSort = () => {
-   
-//     if (sortStatus) {
-//         let sorted = product.bouequetPrice.sort((a, b) => a[1] - b[1]);
-//         setMyArray(sorted);
-//         setSortStatus(!sortStatus);
-//     } else {
-//         let sorted = product.bouequetPrice.sort((a, b) => b[1] - a[1]);
-//         setMyArray(sorted);
-//         setSortStatus(!sortStatus);
-//     }
-//   }
     return (
 
         <>
